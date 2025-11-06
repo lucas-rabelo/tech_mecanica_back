@@ -9,4 +9,10 @@ export class ListBranchServiceRequestDto extends ListItemsRequestDto {
   @IsOptional()
   @IsNumber()
   branchId?: number;
+
+  @ApiProperty({ required: false })
+  @Type(() => Number)
+  @IsOptional()
+  @IsNumber()
+  serviceId?: number;
 }

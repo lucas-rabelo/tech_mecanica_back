@@ -9,5 +9,5 @@ export class ListBranchServiceResponseDto {
 
   @ApiProperty({ type: [ReadBranchServiceResponseDto] })
   @IsArray()
-  branchContacts: ReadBranchServiceResponseDto[];
+  branchServices: ReadBranchServiceResponseDto[];
 }

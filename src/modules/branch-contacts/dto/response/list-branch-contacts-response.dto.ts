@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsNumber } from 'class-validator';
-import { ReadBranchContactResponseDto } from './read-branch-services-response.dto';
+import { ReadBranchContactResponseDto } from './read-branch-contacts-response.dto';
 
 export class ListBranchContactResponseDto {
   @ApiProperty()

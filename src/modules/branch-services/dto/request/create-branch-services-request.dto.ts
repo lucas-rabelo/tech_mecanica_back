@@ -1,10 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNumber, IsString } from "class-validator";
 
-export class CreateBranchServiceRequestDto {
+export class CreateBranchContactRequestDto {
   @ApiProperty()
   @IsString()
-  phone: number;
+  price: number;
 
   @ApiProperty()
   @IsNumber()
@@ -12,5 +12,5 @@ export class CreateBranchServiceRequestDto {
 
   @ApiProperty()
   @IsNumber()
-  isWhatsapp: number;
+  serviceId: number;
 }
