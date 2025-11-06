@@ -1,1 +1,1 @@
-export * from './branch-services.respository.prisma';
+export * from './branch-contacts.respository.prisma';

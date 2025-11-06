@@ -17,7 +17,7 @@ export class BranchContactsPrismaRepository
   constructor(private readonly prisma: PrismaService) {}
 
   async findById(id: number): Promise<ReadBranchContactResponseDto | null> {
-    const branchServiceFounded = await this.prisma.branchContact.findUnique({
+    const branchContactFounded = await this.prisma.branchContact.findUnique({
       where: {
         id,
         deletedAt: {
@@ -26,44 +26,20 @@ export class BranchContactsPrismaRepository
       },
       include: {
         branch: true,
-        service: true,
       },
     });
 
-    if (!branchServiceFounded) {
+    if (!branchContactFounded) {
       return null;
     }
 
-    return BranchContactPrismaMapper.toDomain(branchServiceFounded);
+    return BranchContactPrismaMapper.toDomain(branchContactFounded);
   }
 
-  async findByContactId(
-    contactId: number,
-  ): Promise<ReadBranchContactResponseDto | null> {
-    const branchServiceFounded = await this.prisma.branchContact.findFirst({
-      where: {
-        contactId,
-        deletedAt: {
-          equals: null,
-        },
-      },
-      include: {
-        branch: true,
-        service: true,
-      },
-    });
-
-    if (!branchServiceFounded) {
-      return null;
-    }
-
-    return BranchContactPrismaMapper.toDomain(branchServiceFounded);
-  }
-  
   async findByBranchId(
     branchId: number,
   ): Promise<ReadBranchContactResponseDto | null> {
-    const branchServiceFounded = await this.prisma.branchContact.findFirst({
+    const branchContactFounded = await this.prisma.branchContact.findFirst({
       where: {
         branchId,
         deletedAt: {
@@ -72,58 +48,55 @@ export class BranchContactsPrismaRepository
       },
       include: {
         branch: true,
-        service: true,
       },
     });
 
-    if (!branchServiceFounded) {
+    if (!branchContactFounded) {
       return null;
     }
 
-    return BranchContactPrismaMapper.toDomain(branchServiceFounded);
+    return BranchContactPrismaMapper.toDomain(branchContactFounded);
   }
 
   async create(
     data: CreateBranchContactRequestDto,
   ): Promise<ReadBranchContactResponseDto> {
-    const branchServiceData = BranchContactPrismaMapper.toPrisma(data);
+    const branchContactData = BranchContactPrismaMapper.toPrisma(data);
 
-    const branchServiceCreate = await this.prisma.branchContact.create({
-      data: branchServiceData,
+    const branchContactCreate = await this.prisma.branchContact.create({
+      data: branchContactData,
       include: {
         branch: true,
-        service: true,
       },
     });
 
-    return BranchContactPrismaMapper.toDomain(branchServiceCreate);
+    return BranchContactPrismaMapper.toDomain(branchContactCreate);
   }
 
   async update(
     id: number,
     data: CreateBranchContactRequestDto,
   ): Promise<ReadBranchContactResponseDto | null> {
-    const branchServiceData = BranchContactPrismaMapper.toPrisma(data);
+    const branchContactData = BranchContactPrismaMapper.toPrisma(data);
 
-    const branchServiceUpdated = await this.prisma.branchContact.update({
+    const branchContactUpdated = await this.prisma.branchContact.update({
       where: {
         id,
         deletedAt: {
           equals: null,
         },
       },
-      data: branchServiceData,
+      data: branchContactData,
       include: {
         branch: true,
-        service: true,
       },
     });
 
-    return BranchContactPrismaMapper.toDomain(branchServiceUpdated);
+    return BranchContactPrismaMapper.toDomain(branchContactUpdated);
   }
 
   async delete(id: number): Promise<ReadBranchContactResponseDto | null> {
-    const branchServiceDeleted = await this.prisma.branchContact.update({
+    const branchContactDeleted = await this.prisma.branchContact.update({
       where: {
         id,
         deletedAt: {
@@ -135,11 +108,10 @@ export class BranchContactsPrismaRepository
       },
       include: {
         branch: true,
-        service: true,
       },
     });
 
-    return BranchContactPrismaMapper.toDomain(branchServiceDeleted);
+    return BranchContactPrismaMapper.toDomain(branchContactDeleted);
   }
 
   async list(
@@ -162,12 +134,6 @@ export class BranchContactsPrismaRepository
       };
     }
 
-    if (filters.serviceId) {
-      where.serviceId = {
-        equals: filters.serviceId,
-      };
-    }
-
     const total = await this.prisma.branchContact.count({
       where,
     });
@@ -178,7 +144,6 @@ export class BranchContactsPrismaRepository
       take,
       include: {
         branch: true,
-        service: true,
       },
     });
 
