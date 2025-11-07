@@ -140,7 +140,7 @@ model Branch {
   updatedAt      DateTime?
   deletedAt      DateTime?
   branchServices BranchService[]
-  BranchContact  BranchContact[]
+  branchContact  BranchContact[]
 
   @@map("branches")
 }
@@ -149,7 +149,8 @@ model BranchContact {
   id         Int       @id @default(autoincrement())
   branchId   Int
   branch     Branch    @relation(fields: [branchId], references: [id])
-  phone      String    @db.VarChar(255)
+  phone      String    @db.VarChar(14)
+  email      String    @db.VarChar(255)
   isWhatsapp Boolean   @default(false) @db.Boolean
   createdAt  DateTime  @default(now())
   updatedAt  DateTime?

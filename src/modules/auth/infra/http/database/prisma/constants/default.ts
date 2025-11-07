@@ -1,5 +1,0 @@
-export const DEFAULT_VALUES = {
-  PERMISSION_ID: 1,
-  USER_STATUS_ID: 1,
-  TENANT_ID: 1,
-}
