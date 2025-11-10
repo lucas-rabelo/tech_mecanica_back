@@ -1,7 +1,4 @@
-import {
-  UsersModule,
-} from '@/src/modules';
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
@@ -9,13 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
     JwtModule.register({
       secret: `${process.env.SECRET_ENV}`,
     }),
-    forwardRef(() => UsersModule),
   ],
   providers: [],
 })
-// export class AppModule implements NestModule {
-//   configure(consumer: MiddlewareConsumer) {
-//     consumer.apply(TenantMiddleware).forRoutes('*');
-//   }
-// }
 export class AppModule {}
