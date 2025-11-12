@@ -2,6 +2,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './modules/users';
+
+const modules = [
+  UsersModule,
+]
 
 @Module({
   imports: [
@@ -14,8 +19,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         username: process.env.DB_USER,
         password: String(process.env.DB_PASS),
         database: process.env.DB_NAME,
-        entities: [__dirname + '/database/entities/**/*.entity{.ts,.js}'],
-        migrations: [__dirname + '/database/migrations/**/*{.ts,.js}'],
         synchronize: process.env.DB_SYNCHRONIZE === 'true',
         migrationsTableName: 'typeorm_migrations',
         migrationsTransactionMode: 'all'
@@ -24,6 +27,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     JwtModule.register({
       secret: `${process.env.SECRET_ENV}`,
     }),
+    ...modules,
   ],
   providers: [],
 })

@@ -1,20 +1,26 @@
-
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('permissions')
-export class Permissions {
+export class PermissionsEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column('varchar', { length: 255 })
   name: string;
 
-  @Column('timestamp')
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column('timestamp', { nullable: true })
+  @UpdateDateColumn()
   updatedAt?: Date;
 
-  @Column('timestamp', { nullable: true })
+  @DeleteDateColumn()
   deletedAt?: Date;
 }
