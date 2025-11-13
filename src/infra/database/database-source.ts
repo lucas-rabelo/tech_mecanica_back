@@ -8,6 +8,7 @@ export const DatabaseDataSource = new DataSource({
   username: process.env.DB_USER,
   password: String(process.env.DB_PASS),
   database: process.env.DB_NAME,
-  entities: ['dist/src/infra/database/entities/**/*.entity.js'],
-  migrations: ['dist/src/infra/database/migrations/**/*.js'],
+  entities: ['dist/src/infra/database/entities/**/*.entity.{ts,js}'],
+  migrations: ['dist/src/infra/database/migrations/**/*.{ts,js}'],
+  migrationsTableName: 'typeorm_migrations',
 });

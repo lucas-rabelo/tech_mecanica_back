@@ -27,7 +27,9 @@ export class PermissionRepositoryTypeOrm implements PermissionsRepository {
   }
 
   async delete(id: number): Promise<DeletedAndUpdatedDataResponseDto | null> {
-    const permissionDeleted = this.permissionsRepository.delete(id);
+    const permissionDeleted = this.permissionsRepository.update(id, {
+      deletedAt: new Date()
+    });
 
     if(!permissionDeleted) {
       return null;
@@ -40,6 +42,7 @@ export class PermissionRepositoryTypeOrm implements PermissionsRepository {
     const permissionFounded = await this.permissionsRepository.findOne({
       where: {
         id,
+        deletedAt: undefined
       }
     });
 
@@ -53,7 +56,10 @@ export class PermissionRepositoryTypeOrm implements PermissionsRepository {
   async list(
     filters: FilterListPermisssionRequestDto,
   ): Promise<ListPermissionsResponseDto> {
-    const [ result, total ] = await this.permissionsRepository.findAndCountBy(filters);
+    const [ result, total ] = await this.permissionsRepository.findAndCountBy({
+      ...filters,
+      deletedAt: undefined,
+    });
 
     return {
       total, 
