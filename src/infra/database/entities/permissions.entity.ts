@@ -18,9 +18,9 @@ export class PermissionsEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn()
-  updatedAt?: Date;
+  @UpdateDateColumn({ nullable: true })
+  updatedAt: Date | null;
 
-  @DeleteDateColumn()
-  deletedAt?: Date;
+  @DeleteDateColumn({ nullable: true })
+  deletedAt: Date | null;
 }

@@ -1,4 +1,7 @@
-import { DeletedAndUpdatedDataResponseDto, PermissionsEntity } from '@/src/infra';
+import {
+  DeletedAndUpdatedDataResponseDto,
+  PermissionsEntity,
+} from '@/src/infra';
 import {
   CreatePermissionRequestDto,
   FilterListPermisssionRequestDto,
@@ -7,7 +10,7 @@ import {
 } from '@/src/modules/permissions/dtos';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
 import { PermissionsRepository } from '../../permissions.repository';
 import { PermissionMapper } from '../mappers';
 
@@ -22,16 +25,17 @@ export class PermissionRepositoryTypeOrm implements PermissionsRepository {
     data: CreatePermissionRequestDto,
   ): Promise<ReadPermissionResponseDto> {
     const permissionCreated = this.permissionsRepository.create(data);
-    const permissionSaved = await this.permissionsRepository.save(permissionCreated);
+    const permissionSaved =
+      await this.permissionsRepository.save(permissionCreated);
     return PermissionMapper.toDomain(permissionSaved);
   }
 
   async delete(id: number): Promise<DeletedAndUpdatedDataResponseDto | null> {
     const permissionDeleted = this.permissionsRepository.update(id, {
-      deletedAt: new Date()
+      deletedAt: new Date(),
     });
 
-    if(!permissionDeleted) {
+    if (!permissionDeleted) {
       return null;
     }
 
@@ -42,11 +46,11 @@ export class PermissionRepositoryTypeOrm implements PermissionsRepository {
     const permissionFounded = await this.permissionsRepository.findOne({
       where: {
         id,
-        deletedAt: undefined
-      }
+        deletedAt: undefined,
+      },
     });
 
-    if(!permissionFounded) {
+    if (!permissionFounded) {
       return null;
     }
 
@@ -56,15 +60,33 @@ export class PermissionRepositoryTypeOrm implements PermissionsRepository {
   async list(
     filters: FilterListPermisssionRequestDto,
   ): Promise<ListPermissionsResponseDto> {
-    const [ result, total ] = await this.permissionsRepository.findAndCountBy({
-      ...filters,
+    const { page, itemsPerPage } = filters;
+
+    const skip = Number((page - 1) * itemsPerPage);
+    const take = Number(itemsPerPage);
+    const order: FindOptionsOrder<PermissionsEntity> = { id: 'ASC' };
+
+    let where:
+      | FindOptionsWhere<PermissionsEntity>
+      | FindOptionsWhere<PermissionsEntity>[] = {
       deletedAt: undefined,
+    };
+
+    if (filters.name) {
+      where.name = filters.name;
+    }
+
+    const [result, total] = await this.permissionsRepository.findAndCount({
+      where,
+      skip,
+      take,
+      order,
     });
 
     return {
-      total, 
+      total,
       permissions: result.map(PermissionMapper.toDomain),
-    }
+    };
   }
 
   async update(
@@ -73,7 +95,7 @@ export class PermissionRepositoryTypeOrm implements PermissionsRepository {
   ): Promise<DeletedAndUpdatedDataResponseDto | null> {
     const permissionUpdated = this.permissionsRepository.update(id, data);
 
-    if(!permissionUpdated) {
+    if (!permissionUpdated) {
       return null;
     }
 
