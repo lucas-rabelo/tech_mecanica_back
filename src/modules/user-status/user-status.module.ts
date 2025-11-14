@@ -19,7 +19,7 @@ import {
   CreateUserStatusController,
   DeleteUserStatusController,
   FindByIdUserStatusController,
-  ListPermissionController,
+  ListUserStatusController,
   UpdateUserStatusController,
 } from './infra/http/controllers';
 
@@ -29,7 +29,7 @@ import {
     CreateUserStatusController,
     DeleteUserStatusController,
     FindByIdUserStatusController,
-    ListPermissionController,
+    ListUserStatusController,
     UpdateUserStatusController,
   ],
   providers: [

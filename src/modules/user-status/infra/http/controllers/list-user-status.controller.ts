@@ -15,13 +15,13 @@ import {
   ListUserStatusResponseDto,
 } from '../../../dtos';
 
-@ApiTags('Permissions')
-@Controller('permissions')
+@ApiTags('User status')
+@Controller('user-status')
 // @ApiBearerAuth()
 @ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
 @ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
 @ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })
-export class ListPermissionController {
+export class ListUserStatusController {
   constructor(
     @Inject(forwardRef(() => ListUserStatusUseCase))
     private readonly listUserStatusUseCase: ListUserStatusUseCase,

@@ -23,8 +23,8 @@ import {
   ReadUserStatusResponseDto,
 } from '../../../dtos';
 
-@ApiTags('Permissions')
-@Controller('permissions')
+@ApiTags('User status')
+@Controller('user-status')
 // @ApiBearerAuth()
 @ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
 @ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
