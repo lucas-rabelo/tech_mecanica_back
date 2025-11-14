@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PermissionsModule } from './modules';
+import { PermissionsModule, UserStatusModule } from './modules';
 
-const modules = [PermissionsModule];
+const modules = [PermissionsModule, UserStatusModule];
 
 @Module({
   imports: [
