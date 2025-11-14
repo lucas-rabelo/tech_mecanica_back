@@ -1,33 +1,36 @@
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
-  OneToOne,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
   JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { TenantStatus } from './tenant-status.entity';
+import { TenantStatusEntity } from './tenant-status.entity';
 
 @Entity('tenants')
-export class Tenants {
+export class TenantsEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column('varchar', { length: 255 })
   name: string;
 
-  @OneToOne(() => TenantStatus)
+  @OneToOne(() => TenantStatusEntity)
   @JoinColumn()
-  tenantStatusId: TenantStatus;
+  tenantStatusId: TenantStatusEntity;
 
   @Column('varchar', { length: 255, unique: true })
   subdomain: string;
 
-  @Column('timestamp')
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column('timestamp', { nullable: true })
+  @UpdateDateColumn()
   updatedAt?: Date;
 
-  @Column('timestamp', { nullable: true })
+  @DeleteDateColumn()
   deletedAt?: Date;
 }
