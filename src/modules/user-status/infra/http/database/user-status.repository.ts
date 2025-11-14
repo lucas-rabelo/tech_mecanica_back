@@ -18,5 +18,5 @@ export abstract class UserStatusRepository {
   abstract delete(id: number): Promise<DeletedAndUpdatedDataResponseDto | null>;
   abstract list(
     filters: FilterListUserStatusRequestDto,
-  ): Promise<ListUserStatusResponseDto | null>;
+  ): Promise<ListUserStatusResponseDto>;
 }
