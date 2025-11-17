@@ -10,7 +10,7 @@ import {
 } from '@/src/modules/permissions/dtos';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsOrder, FindOptionsWhere, Like, Repository } from 'typeorm';
 import { PermissionsRepository } from '../../permissions.repository';
 import { PermissionMapper } from '../mappers';
 
@@ -73,7 +73,7 @@ export class PermissionRepositoryTypeOrm implements PermissionsRepository {
     };
 
     if (filters.name) {
-      where.name = filters.name;
+      where.name = Like(`%${filters.name}%`);
     }
 
     const [result, total] = await this.permissionsRepository.findAndCount({

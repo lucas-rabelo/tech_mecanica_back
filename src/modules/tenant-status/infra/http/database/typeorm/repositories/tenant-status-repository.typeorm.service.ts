@@ -10,7 +10,7 @@ import {
 } from '@/src/modules/tenant-status/dtos';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsOrder, FindOptionsWhere, Repository, Like } from 'typeorm';
 import { TenantStatusRepository } from '../../tenant-status.repository';
 import { TenantStatusMapper } from '../mappers';
 
@@ -74,7 +74,7 @@ export class TenantStatusRepositoryTypeOrm implements TenantStatusRepository {
     };
 
     if (filters.name) {
-      where.name = filters.name;
+      where.name = Like(`%${filters.name}%`);
     }
 
     const [result, total] = await this.tenantStatusRepository.findAndCount({
