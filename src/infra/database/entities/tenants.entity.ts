@@ -19,8 +19,10 @@ export class TenantsEntity {
   name: string;
 
   @OneToOne(() => TenantStatusEntity)
-  @JoinColumn()
-  tenantStatusId: TenantStatusEntity;
+  @JoinColumn({ name: 'tenantStatusId' })
+  tenantStatus: TenantStatusEntity;
+  
+  tenantStatusId: number;
 
   @Column('varchar', { length: 255, unique: true })
   subdomain: string;

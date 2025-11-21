@@ -11,8 +11,8 @@ export class ReadTenantsResponseDto {
   name: string;
   
   @ApiProperty()
-  @IsNumber()
-  tenantStatusId: number;
+  @IsString()
+  tenantStatus: string;
   
   @ApiProperty()
   @IsString()
