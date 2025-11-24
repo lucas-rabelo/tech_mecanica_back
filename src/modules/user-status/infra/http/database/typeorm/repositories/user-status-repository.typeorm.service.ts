@@ -10,7 +10,7 @@ import {
 } from '@/src/modules/user-status/dtos';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsOrder, FindOptionsWhere, Like, Repository } from 'typeorm';
 import { UserStatusRepository } from '../../user-status.repository';
 import { UserStatusMapper } from '../mappers';
 
@@ -74,7 +74,7 @@ export class UserStatusRepositoryTypeOrm implements UserStatusRepository {
     };
 
     if (filters.name) {
-      where.name = filters.name;
+      where.name = Like(`%${filters.name}%`);
     }
 
     const [result, total] = await this.userStatusRepository.findAndCount({
