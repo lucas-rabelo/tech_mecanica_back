@@ -17,6 +17,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { FindByIdTenantUseCase } from '../../../application/use-cases';
+import { ReadTenantsResponseDto } from '../../../dtos';
 
 @ApiTags('Tenants')
 @Controller('tenants')
@@ -32,7 +33,7 @@ export class FindByIdTenantController {
 
   // @RequireAccess({ module: 'Permissions', page: 'FindPermission' })
   @ApiOperation({ summary: 'Finding a tenant by ID' })
-  @ApiOkResponse()
+  @ApiOkResponse({ type: ReadTenantsResponseDto })
   @Get(':id')
   async handle(@Param('id', ParseIntPipe) id: number) {
     return await this.findByIdTenantUseCase.execute(id);

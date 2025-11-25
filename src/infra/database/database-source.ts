@@ -11,4 +11,5 @@ export const DatabaseDataSource = new DataSource({
   entities: ['dist/src/infra/database/entities/**/*.entity.{ts,js}'],
   migrations: ['dist/src/infra/database/migrations/**/*.{ts,js}'],
   migrationsTableName: 'typeorm_migrations',
+  synchronize: false,
 });

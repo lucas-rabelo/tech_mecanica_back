@@ -4,5 +4,5 @@ import { IsBoolean } from "class-validator";
 export class DeletedAndUpdatedDataResponseDto {
   @ApiProperty()
   @IsBoolean()
-  success: true;
+  success: boolean;
 }

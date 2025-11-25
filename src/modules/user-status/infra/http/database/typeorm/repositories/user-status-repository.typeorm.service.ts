@@ -32,11 +32,11 @@ export class UserStatusRepositoryTypeOrm implements UserStatusRepository {
   }
 
   async delete(id: number): Promise<DeletedAndUpdatedDataResponseDto | null> {
-    const permissionDeleted = this.userStatusRepository.update(id, {
+    const userStatusDeleted = this.userStatusRepository.update(id, {
       deletedAt: new Date(),
     });
 
-    if (!permissionDeleted) {
+    if (!userStatusDeleted) {
       return null;
     }
 
@@ -44,18 +44,18 @@ export class UserStatusRepositoryTypeOrm implements UserStatusRepository {
   }
 
   async findById(id: number): Promise<ReadUserStatusResponseDto | null> {
-    const permissionFounded = await this.userStatusRepository.findOne({
+    const userStatusFounded = await this.userStatusRepository.findOne({
       where: {
         id,
         deletedAt: undefined,
       },
     });
 
-    if (!permissionFounded) {
+    if (!userStatusFounded) {
       return null;
     }
 
-    return UserStatusMapper.toDomain(permissionFounded);
+    return UserStatusMapper.toDomain(userStatusFounded);
   }
 
   async list(

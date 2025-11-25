@@ -19,6 +19,17 @@ export class UpdateTenantUseCase {
     try {
       await this.findByIdTenantUseCase.execute(id);
 
+      const subdomainAlreadyExists = await this.tenantsRepository.findBySubdomain(
+        request.subdomain,
+      );
+
+      if (subdomainAlreadyExists) {
+        throw new ApplicationException(
+          DEFAULT_MESSAGES.ERROR_UPDATE + ' Subdomain already exists.',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
       const tenantUpdated = await this.tenantsRepository.update(
         id,
         request,
