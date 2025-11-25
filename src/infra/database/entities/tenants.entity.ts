@@ -1,14 +1,14 @@
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   JoinColumn,
-  OneToOne,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { TenantStatusEntity } from './tenant-status.entity';
+import { UsersEntity } from './users.entity';
 
 @Entity('tenants')
 export class TenantsEntity {
@@ -18,10 +18,11 @@ export class TenantsEntity {
   @Column('varchar', { length: 255 })
   name: string;
 
-  @OneToOne(() => TenantStatusEntity)
+  @ManyToOne(() => TenantStatusEntity)
   @JoinColumn({ name: 'tenantStatusId' })
   tenantStatus: TenantStatusEntity;
-  
+
+  @Column()
   tenantStatusId: number;
 
   @Column('varchar', { length: 255, unique: true })
@@ -30,9 +31,12 @@ export class TenantsEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn()
-  updatedAt?: Date;
+  @Column({ type: 'timestamp', nullable: true, default: null })
+  updatedAt: Date | null;
 
-  @DeleteDateColumn()
-  deletedAt?: Date;
+  @Column({ type: 'timestamp', nullable: true, default: null })
+  deletedAt: Date | null;
+
+  @OneToMany(() => UsersEntity, (user) => user.id)
+  users: UsersEntity[];
 }

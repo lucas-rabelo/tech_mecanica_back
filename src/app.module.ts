@@ -6,6 +6,7 @@ import {
   PermissionsModule,
   TenantsModule,
   TenantStatusModule,
+  UsersModule,
   UserStatusModule,
 } from './modules';
 
@@ -14,6 +15,7 @@ const modules = [
   TenantsModule,
   TenantStatusModule,
   UserStatusModule,
+  UsersModule,
 ];
 
 @Module({

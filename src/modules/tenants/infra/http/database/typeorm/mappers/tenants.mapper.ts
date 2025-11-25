@@ -1,10 +1,10 @@
-import { TenantsEntity, TenantStatusEntity } from '@/src/infra';
+import { TenantsEntity } from '@/src/infra';
 import { ReadTenantsResponseDto } from '@/src/modules/tenants/dtos';
 
 export class TenantsMapper {
-  static toDomain(
-    raw: TenantsEntity & { tenantStatus: TenantStatusEntity },
-  ): ReadTenantsResponseDto {
+  static toDomain(raw: TenantsEntity): ReadTenantsResponseDto {
+    console.log({raw});
+
     return {
       id: raw.id,
       name: raw.name,

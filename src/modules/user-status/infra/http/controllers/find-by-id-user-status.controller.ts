@@ -1,4 +1,4 @@
-import { ErrorBadRequestResponseDto, /*RequireAccess*/ } from '@/src/infra';
+import { ErrorBadRequestResponseDto /*RequireAccess*/ } from '@/src/infra';
 import {
   Controller,
   forwardRef,
@@ -17,6 +17,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { FindByIdUserStatusUseCase } from '../../../application/use-cases';
+import { ReadUserStatusResponseDto } from '../../../dtos';
 
 @ApiTags('User status')
 @Controller('user-status')
@@ -32,7 +33,7 @@ export class FindByIdUserStatusController {
 
   // @RequireAccess({ module: 'Permissions', page: 'FindPermission' })
   @ApiOperation({ summary: 'Finding a user status by ID' })
-  @ApiOkResponse()
+  @ApiOkResponse({ type: ReadUserStatusResponseDto })
   @Get(':id')
   async handle(@Param('id', ParseIntPipe) id: number) {
     return await this.findByIdUserStatusUseCase.execute(id);

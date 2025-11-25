@@ -25,20 +25,23 @@ export class TenantsRepositoryTypeOrm implements TenantsRepository {
   ) {}
 
   async create(data: CreateTenantsRequestDto): Promise<ReadTenantsResponseDto> {
-    const permissionCreated = this.tenantsRepository.create(data);
-    const permissionSaved =
-      await this.tenantsRepository.save(permissionCreated);
-    return TenantsMapper.toDomain(permissionSaved);
-  }
+    const tenantCreated = this.tenantsRepository.create(data);
+    const tenantSaved = await this.tenantsRepository.save(tenantCreated);
 
-  async delete(id: number): Promise<DeletedAndUpdatedDataResponseDto | null> {
-    const permissionDeleted = this.tenantsRepository.update(id, {
-      deletedAt: new Date(),
+    const tenantWithRelations = await this.tenantsRepository.findOne({
+      where: { id: tenantSaved.id },
+      relations: ['tenantStatus'],
     });
 
-    if (!permissionDeleted) {
-      return null;
-    }
+    if (!tenantWithRelations) return {} as ReadTenantsResponseDto;
+
+    return TenantsMapper.toDomain(tenantWithRelations);
+  }
+
+  async delete(id: number): Promise<DeletedAndUpdatedDataResponseDto> {
+    this.tenantsRepository.update(id, {
+      deletedAt: new Date(),
+    });
 
     return { success: true };
   }
@@ -51,7 +54,25 @@ export class TenantsRepositoryTypeOrm implements TenantsRepository {
       },
       relations: {
         tenantStatus: true,
-      }
+      },
+    });
+
+    if (!permissionFounded) {
+      return null;
+    }
+
+    return TenantsMapper.toDomain(permissionFounded);
+  }
+
+  async findBySubdomain(subdomain: string): Promise<ReadTenantsResponseDto | null> {
+    const permissionFounded = await this.tenantsRepository.findOne({
+      where: {
+        subdomain,
+        deletedAt: undefined,
+      },
+      relations: {
+        tenantStatus: true,
+      },
     });
 
     if (!permissionFounded) {
@@ -95,7 +116,7 @@ export class TenantsRepositoryTypeOrm implements TenantsRepository {
       order,
       relations: {
         tenantStatus: true,
-      }
+      },
     });
 
     return {

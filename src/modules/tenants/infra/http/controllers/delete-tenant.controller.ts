@@ -1,4 +1,4 @@
-import { ErrorBadRequestResponseDto, /*RequireAccess*/ } from '@/src/infra';
+import { DeletedAndUpdatedDataResponseDto, ErrorBadRequestResponseDto, /*RequireAccess*/ } from '@/src/infra';
 import {
   Controller,
   Delete,
@@ -32,7 +32,7 @@ export class DeleteTenantController {
 
   // @RequireAccess({ module: 'Permissions', page: 'DeletePermission' })
   @ApiOperation({ summary: 'Deleting a tenant' })
-  @ApiOkResponse()
+  @ApiOkResponse({ type: DeletedAndUpdatedDataResponseDto })
   @Delete(':id')
   async handle(@Param('id', ParseIntPipe) id: number) {
     return await this.deleteTenantUseCase.execute(id);
