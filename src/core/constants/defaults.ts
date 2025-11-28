@@ -1,0 +1,1 @@
+export const USER_STATUS_ID_PENDING = 3;

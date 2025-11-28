@@ -41,12 +41,12 @@ export class UsersEntity {
   @Column()
   tenantId: number;
   
-  @ManyToOne(() => PermissionsEntity)
+  @ManyToOne(() => PermissionsEntity, { nullable: true })
   @JoinColumn({ name: 'permissionId' })
   permissions: PermissionsEntity;
   
-  @Column()
-  permissionId: number;
+  @Column({ nullable: true })
+  permissionId?: number;
   
   @ManyToOne(() => UserStatusEntity)
   @JoinColumn({ name: 'userStatusId' })
