@@ -1,8 +1,20 @@
-import { ErrorBadRequestResponseDto /*RequireAccess*/ } from '@/src/infra';
-import { Controller, forwardRef, Get, Inject, Query } from '@nestjs/common';
+import {
+  AuthGuard,
+  ErrorBadRequestResponseDto,
+  IsAdmin /*RequireAccess*/,
+  TenantId,
+} from '@/src/infra';
+import {
+  Controller,
+  forwardRef,
+  Get,
+  Inject,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  // ApiBearerAuth,
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
@@ -14,10 +26,11 @@ import { FilterListUserRequestDto, ListUserResponseDto } from '../../../dtos';
 
 @ApiTags('Users')
 @Controller('users')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
 @ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
 @ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })
+@UseGuards(AuthGuard)
 export class ListUserController {
   constructor(
     @Inject(forwardRef(() => ListUserUseCase))
@@ -28,7 +41,11 @@ export class ListUserController {
   @ApiOperation({ summary: 'List of users' })
   @ApiOkResponse({ type: ListUserResponseDto })
   @Get()
-  async handle(@Query() filters: FilterListUserRequestDto) {
-    return await this.listUserUseCase.execute(filters);
+  async handle(
+    @TenantId() tenantId: number,
+    @IsAdmin() isAdmin: boolean,
+    @Query() request: FilterListUserRequestDto,
+  ) {
+    return await this.listUserUseCase.execute({ isAdmin, tenantId, request });
   }
 }

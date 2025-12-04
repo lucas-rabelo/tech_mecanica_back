@@ -3,13 +3,18 @@ import { ReadTenantsResponseDto } from '@/src/modules/admin/tenants/dtos';
 
 export class TenantsMapper {
   static toDomain(raw: TenantsEntity): ReadTenantsResponseDto {
-    console.log({raw});
-
     return {
       id: raw.id,
       name: raw.name,
       subdomain: raw.subdomain,
-      tenantStatus: raw.tenantStatus.name,
+      tenantStatus: {
+        id: raw.tenantStatus.id,
+        name: raw.tenantStatus.name,
+        createdAt: raw.tenantStatus.createdAt.toISOString(),
+        updatedAt: raw.tenantStatus.updatedAt
+          ? raw.tenantStatus.updatedAt.toISOString()
+          : null,
+      },
       createdAt: raw.createdAt.toISOString(),
       updatedAt: raw.updatedAt?.toISOString() ?? null,
     };

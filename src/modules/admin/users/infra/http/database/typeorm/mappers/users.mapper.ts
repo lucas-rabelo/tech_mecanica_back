@@ -34,9 +34,39 @@ export class UsersMapper {
       birthDate: raw.birthDate,
       phone: raw.phone,
       document: raw.document,
-      tenant: raw.tenants.name,
-      permission: raw.permissions ? raw.permissions.name : '',
-      userStatus: raw.userStatus.name,
+      tenant: raw.tenants ? {
+        id: raw.tenants.id,
+        name: raw.tenants.name,
+        subdomain: raw.tenants.subdomain,
+        tenantStatus: raw.tenants.tenantStatus ? {
+          id: raw.tenants.tenantStatus.id,
+          name: raw.tenants.tenantStatus.name,
+          createdAt: raw.tenants.tenantStatus.createdAt.toISOString(),
+          updatedAt: raw.tenants.tenantStatus.updatedAt
+            ? raw.tenants.tenantStatus.updatedAt.toISOString()
+            : null,
+        } : null,
+        createdAt: raw.tenants.createdAt.toISOString(),
+        updatedAt: raw.tenants.updatedAt
+          ? raw.tenants.updatedAt.toISOString()
+          : null,
+      } : null,
+      permission: raw.permissions ? {
+        id: raw.permissions.id,
+        name: raw.permissions?.name,
+        createdAt: raw.permissions?.createdAt.toISOString(),
+        updatedAt: raw.permissions?.updatedAt
+          ? raw.permissions?.updatedAt.toISOString()
+          : null,
+      } : null,
+      userStatus: {
+        id: raw.userStatus.id,
+        name: raw.userStatus.name,
+        createdAt: raw.userStatus.createdAt.toISOString(),
+        updatedAt: raw.userStatus.updatedAt
+          ? raw.userStatus.updatedAt.toISOString()
+          : null,
+      },
       createdAt: raw.createdAt.toISOString(),
       updatedAt: raw.updatedAt ? raw.updatedAt.toISOString() : null,
     };

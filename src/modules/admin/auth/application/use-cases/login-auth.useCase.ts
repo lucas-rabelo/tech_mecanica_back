@@ -1,5 +1,5 @@
 import { ApplicationException } from '@/src/core';
-import { UsersRepository } from '@/src/modules/admin/users';
+import { UsersRepository } from '../../../users/infra/http/database/users.repository';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { LoginAuthRequestDto, SendTokenResponseDto } from '../../dtos';
 import { ComparePasswordService, CreateTokenJwtService } from '../services';

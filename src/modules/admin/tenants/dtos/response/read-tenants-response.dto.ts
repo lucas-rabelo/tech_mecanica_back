@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
+import { ReadTenantStatusResponseDto } from '../../../tenant-status';
 
 export class ReadTenantsResponseDto {
   @ApiProperty()
@@ -10,9 +11,8 @@ export class ReadTenantsResponseDto {
   @IsString()
   name: string;
   
-  @ApiProperty()
-  @IsString()
-  tenantStatus: string;
+  @ApiProperty({ type: ReadTenantStatusResponseDto, nullable: true })
+  tenantStatus: ReadTenantStatusResponseDto | null;
   
   @ApiProperty()
   @IsString()

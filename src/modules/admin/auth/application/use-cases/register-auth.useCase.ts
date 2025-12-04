@@ -3,14 +3,14 @@ import { DEFAULT_MESSAGES, USER_STATUS_ID_PENDING } from '@/src/core/constants';
 import { UsersRepository } from '@/src/modules/admin/users';
 import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
 import { RegisterAuthRequestDto, SendTokenResponseDto } from '../../dtos';
-import { CreateTokenJwtService, EncryptPasswordService } from '../services';
+import { CreateTokenJwtService, EncryptedPasswordService } from '../services';
 
 @Injectable()
 export class RegisterAuthUseCase {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly createTokenJwtService: CreateTokenJwtService,
-    private readonly encryptPasswordService: EncryptPasswordService,
+    private readonly encryptedPasswordService: EncryptedPasswordService,
   ) {}
 
   async execute(
@@ -25,12 +25,16 @@ export class RegisterAuthUseCase {
       );
     }
 
+    const passwordEncrypted = await this.encryptedPasswordService.execute(
+      password,
+    );
+
     const dataForCreated = {
       name: request.name,
       email: request.email,
       birthDate: request.birthDate,
       phone: request.phone,
-      password: request.password,
+      password: passwordEncrypted,
       confirmPassword: request.confirmPassword,
       document: request.document,
       tenantId,

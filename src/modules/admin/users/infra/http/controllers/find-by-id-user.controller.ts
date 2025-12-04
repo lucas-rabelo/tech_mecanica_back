@@ -1,4 +1,6 @@
-import { ErrorBadRequestResponseDto /*RequireAccess*/ } from '@/src/infra';
+import { AuthGuard, ErrorBadRequestResponseDto, /*RequireAccess*/ 
+IsAdmin,
+TenantId} from '@/src/infra';
 import {
   Controller,
   forwardRef,
@@ -6,10 +8,11 @@ import {
   Inject,
   Param,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  // ApiBearerAuth,
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
@@ -21,10 +24,11 @@ import { ReadUserResponseDto } from '../../../dtos';
 
 @ApiTags('Users')
 @Controller('users')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
 @ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
 @ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })
+@UseGuards(AuthGuard)
 export class FindByIdUserController {
   constructor(
     @Inject(forwardRef(() => FindByIdUserUseCase))
@@ -35,7 +39,11 @@ export class FindByIdUserController {
   @ApiOperation({ summary: 'Finding a user by ID' })
   @ApiOkResponse({ type: ReadUserResponseDto })
   @Get(':id')
-  async handle(@Param('id', ParseIntPipe) id: number) {
-    return await this.findByIdUserUseCase.execute(id);
+  async handle(
+    @IsAdmin() isAdmin: boolean,
+    @TenantId() tenantId: number,
+    @Param('id', ParseIntPipe) id: number
+  ) {
+    return await this.findByIdUserUseCase.execute({ isAdmin, tenantId, id });
   }
 }

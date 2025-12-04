@@ -1,15 +1,21 @@
 import { ApplicationException, DEFAULT_MESSAGES } from '@/src/core';
 import { DeletedAndUpdatedDataResponseDto } from '@/src/infra';
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { UsersRepository } from '../../infra';
+import { UsersRepository } from '../../../infra';
+import { IDeleteUserUseCaseRequest } from './types';
 
 @Injectable()
 export class DeleteUserUseCase {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  async execute(id: number): Promise<DeletedAndUpdatedDataResponseDto> {
+  async execute({ id, isAdmin, tenantId }: IDeleteUserUseCaseRequest): Promise<DeletedAndUpdatedDataResponseDto> {
     try {
-      const userDeleted = await this.usersRepository.delete(id);
+
+
+      const userDeleted = await this.usersRepository.delete({
+        id,
+        tenantId: isAdmin ? undefined : tenantId,
+      });
 
       if (!userDeleted) {
         throw new ApplicationException(

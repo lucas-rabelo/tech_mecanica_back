@@ -5,7 +5,7 @@ import { UsersModule } from '../users';
 import {
   ComparePasswordService,
   CreateTokenJwtService,
-  EncryptPasswordService,
+  EncryptedPasswordService,
   ValidateTokenJwtService,
 } from './application/services';
 
@@ -22,15 +22,15 @@ import {
   RegisterAuthController,
   ResetPasswordAuthController,
 } from './infra';
+import { AuthGuard } from '@/src/infra';
 
 @Module({
   imports: [
-    forwardRef(() => UsersModule),
     JwtModule.register({
-      global: true,
-      secret: `${process.env.SECRET_ENV}`,
-      signOptions: { expiresIn: '60s' },
+      secret: process.env.SECRET_ENV,
+      signOptions: { expiresIn: '1h' },
     }),
+    forwardRef(() => UsersModule),
   ],
   controllers: [
     ForgotPasswordAuthController,
@@ -42,7 +42,7 @@ import {
     ComparePasswordService,
     ValidateTokenJwtService,
     CreateTokenJwtService,
-    EncryptPasswordService,
+    EncryptedPasswordService,
     ForgotPasswordAuthUseCase,
     LoginAuthUseCase,
     RegisterAuthUseCase,
@@ -52,7 +52,8 @@ import {
     ComparePasswordService,
     ValidateTokenJwtService,
     CreateTokenJwtService,
-    EncryptPasswordService,
+    EncryptedPasswordService,
+    LoginAuthUseCase,
   ],
 })
 export class AuthModule {}

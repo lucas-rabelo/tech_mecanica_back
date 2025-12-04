@@ -27,6 +27,5 @@ import { AdminModule } from './modules';
     }),
     AdminModule,
   ],
-  providers: [],
 })
 export class AppModule {}

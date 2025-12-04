@@ -2,7 +2,9 @@ import { DeletedAndUpdatedDataResponseDto, UsersEntity } from '@/src/infra';
 import { FindUserAuthResponseDto } from '@/src/modules/admin/auth';
 import {
   CreateUserRequestDto,
+  DeleteUserRequestDto,
   FilterListUserRequestDto,
+  FindByIdUserRequestDto,
   ListUserResponseDto,
   ReadUserResponseDto,
   UpdateUserRequestDto,
@@ -27,8 +29,6 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
   ) {}
 
   async create(data: CreateUserRequestDto): Promise<ReadUserResponseDto> {
-    console.log({data});
-
     const dataFormatted = UsersMapper.toDatabase(data);
 
     const userCreated = this.usersRepository.create(dataFormatted);
@@ -48,8 +48,20 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
     return UsersMapper.toDomain(userWithRelations);
   }
 
-  async delete(id: number): Promise<DeletedAndUpdatedDataResponseDto> {
-    const userDeleted = this.usersRepository.update(id, {
+  async delete({
+    id,
+    tenantId,
+  }: DeleteUserRequestDto): Promise<DeletedAndUpdatedDataResponseDto> {
+    let where: FindOptionsWhere<UsersEntity> = {
+      id,
+      deletedAt: undefined,
+    };
+
+    if (tenantId) {
+      where = { tenantId };
+    }
+
+    const userDeleted = this.usersRepository.update(where, {
       deletedAt: new Date(),
     });
 
@@ -60,11 +72,22 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
     return { success: true };
   }
 
-  async findById(id: number): Promise<ReadUserResponseDto | null> {
+  async findById({
+    id,
+    tenantId,
+  }: FindByIdUserRequestDto): Promise<ReadUserResponseDto | null> {
+    let where: FindOptionsWhere<UsersEntity> = {
+      deletedAt: undefined,
+    };
+
+    if (tenantId) {
+      where = { tenantId };
+    }
+
     const userFounded = await this.usersRepository.findOne({
       where: {
+        ...where,
         id,
-        deletedAt: undefined,
       },
       relations: {
         tenants: true,

@@ -34,12 +34,12 @@ export class UsersEntity {
   @Column('varchar', { length: 20, unique: true })
   document: string;
 
-  @ManyToOne(() => TenantsEntity)
+  @ManyToOne(() => TenantsEntity, { nullable: true })
   @JoinColumn({ name: 'tenantId' })
-  tenants: TenantsEntity;
+  tenants?: TenantsEntity;
 
   @Column()
-  tenantId: number;
+  tenantId?: number;
   
   @ManyToOne(() => PermissionsEntity, { nullable: true })
   @JoinColumn({ name: 'permissionId' })

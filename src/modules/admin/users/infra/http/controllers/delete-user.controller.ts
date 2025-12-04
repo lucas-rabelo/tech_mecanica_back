@@ -1,6 +1,8 @@
 import {
   DeletedAndUpdatedDataResponseDto,
-  ErrorBadRequestResponseDto /*RequireAccess*/,
+  ErrorBadRequestResponseDto, /*RequireAccess*/
+  IsAdmin,
+  TenantId,
 } from '@/src/infra';
 import {
   Controller,
@@ -12,7 +14,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  // ApiBearerAuth,
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
@@ -23,7 +25,7 @@ import { DeleteUserUseCase } from '../../../application/use-cases';
 
 @ApiTags('Users')
 @Controller('users')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
 @ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
 @ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })
@@ -37,7 +39,11 @@ export class DeleteUserController {
   @ApiOperation({ summary: 'Deleting a user' })
   @ApiOkResponse({ type: DeletedAndUpdatedDataResponseDto })
   @Delete(':id')
-  async handle(@Param('id', ParseIntPipe) id: number) {
-    return await this.deleteUserUseCase.execute(id);
+  async handle(
+    @Param('id', ParseIntPipe) id: number,
+    @IsAdmin() isAdmin: boolean,
+    @TenantId() tenantId: number,
+  ) {
+    return await this.deleteUserUseCase.execute({ id, isAdmin, tenantId });
   }
 }

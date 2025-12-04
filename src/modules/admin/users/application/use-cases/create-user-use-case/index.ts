@@ -1,14 +1,15 @@
 import { ApplicationException, DEFAULT_MESSAGES } from '@/src/core';
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { CreateUserRequestDto, ReadUserResponseDto } from '../../dtos';
-import { UsersRepository } from '../../infra';
 import * as bcrypt from 'bcrypt';
+import { CreateUserRequestDto, ReadUserResponseDto } from '../../../dtos';
+import { UsersRepository } from '../../../infra';
+import { ICreateUserUseCaseRequest } from './types';
 
 @Injectable()
 export class CreateUserUseCase {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  async execute(request: CreateUserRequestDto): Promise<ReadUserResponseDto> {
+  async execute({ isAdmin, tenantId, request }: ICreateUserUseCaseRequest): Promise<ReadUserResponseDto> {
     const { password, confirmPassword } = request;
 
     if (password !== confirmPassword) {
@@ -18,9 +19,18 @@ export class CreateUserUseCase {
       );
     }
 
-    const passwordEncrypted = await bcrypt.hash(password, await bcrypt.genSalt());
+    const passwordEncrypted = await bcrypt.hash(
+      password,
+      await bcrypt.genSalt(),
+    );
 
-    const userRequest = { ...request, password: passwordEncrypted };
+    let userRequest: CreateUserRequestDto = request;
+
+    if (!isAdmin) {
+      userRequest = { ...request, tenantId };
+    }
+
+    userRequest = { ...userRequest, password: passwordEncrypted };
 
     return this.usersRepository.create(userRequest);
   }

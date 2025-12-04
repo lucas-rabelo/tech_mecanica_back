@@ -1,5 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDateString, IsEmail, IsNumber, IsOptional, IsString } from "class-validator";
+import { ReadUserStatusResponseDto } from "../../../user-status";
+import { ReadPermissionResponseDto } from "../../../permissions";
+import { ReadTenantsResponseDto } from "../../../tenants";
 
 export class ReadUserResponseDto {
   @ApiProperty()
@@ -26,17 +29,14 @@ export class ReadUserResponseDto {
   @IsString()
   document: string;
 
-  @ApiProperty()
-  @IsString()
-  tenant: string;
+  @ApiProperty({ type: ReadTenantsResponseDto, nullable: true })
+  tenant: ReadTenantsResponseDto | null;
 
-  @ApiProperty()
-  @IsString()
-  permission: string;
+  @ApiProperty({ type: ReadPermissionResponseDto, nullable: true })
+  permission: ReadPermissionResponseDto | null;
 
-  @ApiProperty()
-  @IsString()
-  userStatus: string;
+  @ApiProperty({ type: ReadUserStatusResponseDto })
+  userStatus: ReadUserStatusResponseDto;
 
   @ApiProperty()
   @IsDateString()

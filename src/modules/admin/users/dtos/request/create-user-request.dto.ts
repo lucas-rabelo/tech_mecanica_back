@@ -43,9 +43,10 @@ export class CreateUserRequestDto {
   @IsString()
   document: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
+  @IsOptional()
   @IsNumber()
-  tenantId: number;
+  tenantId?: number;
 
   @ApiProperty({ required: false })
   @IsOptional()

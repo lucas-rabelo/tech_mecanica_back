@@ -1,4 +1,6 @@
-import { ErrorBadRequestResponseDto /*RequireAccess*/ } from '@/src/infra';
+import { ErrorBadRequestResponseDto, /*RequireAccess*/ 
+IsAdmin,
+TenantId} from '@/src/infra';
 import {
   Body,
   Controller,
@@ -10,7 +12,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  // ApiBearerAuth,
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
@@ -22,7 +24,7 @@ import { CreateUserRequestDto, ReadUserResponseDto } from '../../../dtos';
 
 @ApiTags('Users')
 @Controller('users')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
 @ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
 @ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })
@@ -38,8 +40,10 @@ export class UpdateUserController {
   @Put(':id')
   async handle(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: CreateUserRequestDto,
+    @IsAdmin() isAdmin: boolean,
+    @TenantId() tenantId: number,
+    @Body() request: CreateUserRequestDto,
   ) {
-    return await this.updateUserUseCase.execute(id, body);
+    return await this.updateUserUseCase.execute({ id, isAdmin, tenantId, request });
   }
 }

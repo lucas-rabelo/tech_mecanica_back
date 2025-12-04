@@ -1,7 +1,9 @@
 import { UsersEntity } from '@/src/infra';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from '../auth';
 import {
   CreateUserUseCase,
   DeleteUserUseCase,
@@ -19,7 +21,13 @@ import {
 import { UsersRepository, UsersRepositoryTypeOrm } from './infra/http/database';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UsersEntity])],
+  imports: [
+    JwtModule.register({
+      secret: `${process.env.SECRET_ENV}`,
+    }),
+    TypeOrmModule.forFeature([UsersEntity]),
+    forwardRef(() => AuthModule),
+  ],
   controllers: [
     CreateUserController,
     DeleteUserController,
@@ -38,12 +46,6 @@ import { UsersRepository, UsersRepositoryTypeOrm } from './infra/http/database';
       useClass: UsersRepositoryTypeOrm,
     },
   ],
-  exports: [
-    {
-      provide: UsersRepository,
-      useClass: UsersRepositoryTypeOrm,
-    },
-    FindByIdUserUseCase,
-  ],
+  exports: [UsersRepository, FindByIdUserUseCase],
 })
-export class UsersModule {};
+export class UsersModule {}
