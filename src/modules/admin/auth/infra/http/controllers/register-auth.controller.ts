@@ -1,4 +1,4 @@
-import { ErrorBadRequestResponseDto, Public, TenantId } from '@/src/infra';
+import { ErrorBadRequestResponseDto, Public, User, type IUserDecorator } from '@/src/infra';
 import { Body, Controller, forwardRef, Inject, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -28,7 +28,7 @@ export class RegisterAuthController {
   @Post('register')
   async handle(
     @Body() body: RegisterAuthRequestDto,
-    @TenantId() tenantId: number,
+    @User() { tenantId }: IUserDecorator,
   ) {
     return await this.registerAuthUseCase.execute(body, tenantId);
   }

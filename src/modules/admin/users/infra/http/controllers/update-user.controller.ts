@@ -1,6 +1,8 @@
-import { ErrorBadRequestResponseDto, /*RequireAccess*/ 
-IsAdmin,
-TenantId} from '@/src/infra';
+import {
+  ErrorBadRequestResponseDto,
+  User,
+  type IUserDecorator,
+} from '@/src/infra';
 import {
   Body,
   Controller,
@@ -40,10 +42,14 @@ export class UpdateUserController {
   @Put(':id')
   async handle(
     @Param('id', ParseIntPipe) id: number,
-    @IsAdmin() isAdmin: boolean,
-    @TenantId() tenantId: number,
     @Body() request: CreateUserRequestDto,
+    @User() { isAdmin, tenantId }: IUserDecorator,
   ) {
-    return await this.updateUserUseCase.execute({ id, isAdmin, tenantId, request });
+    return await this.updateUserUseCase.execute({
+      id,
+      isAdmin,
+      tenantId,
+      request,
+    });
   }
 }

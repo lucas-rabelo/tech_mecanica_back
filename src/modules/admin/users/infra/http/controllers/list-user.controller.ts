@@ -1,8 +1,8 @@
 import {
   AuthGuard,
   ErrorBadRequestResponseDto,
-  IsAdmin /*RequireAccess*/,
-  TenantId,
+  User,
+  type IUserDecorator,
 } from '@/src/infra';
 import {
   Controller,
@@ -42,8 +42,7 @@ export class ListUserController {
   @ApiOkResponse({ type: ListUserResponseDto })
   @Get()
   async handle(
-    @TenantId() tenantId: number,
-    @IsAdmin() isAdmin: boolean,
+    @User() { isAdmin, tenantId }: IUserDecorator,
     @Query() request: FilterListUserRequestDto,
   ) {
     return await this.listUserUseCase.execute({ isAdmin, tenantId, request });

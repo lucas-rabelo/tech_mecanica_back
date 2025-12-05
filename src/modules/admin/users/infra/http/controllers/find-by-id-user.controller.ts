@@ -1,6 +1,9 @@
-import { AuthGuard, ErrorBadRequestResponseDto, /*RequireAccess*/ 
-IsAdmin,
-TenantId} from '@/src/infra';
+import {
+  AuthGuard,
+  ErrorBadRequestResponseDto,
+  User,
+  type IUserDecorator,
+} from '@/src/infra';
 import {
   Controller,
   forwardRef,
@@ -40,9 +43,8 @@ export class FindByIdUserController {
   @ApiOkResponse({ type: ReadUserResponseDto })
   @Get(':id')
   async handle(
-    @IsAdmin() isAdmin: boolean,
-    @TenantId() tenantId: number,
-    @Param('id', ParseIntPipe) id: number
+    @User() { isAdmin, tenantId }: IUserDecorator,
+    @Param('id', ParseIntPipe) id: number,
   ) {
     return await this.findByIdUserUseCase.execute({ isAdmin, tenantId, id });
   }

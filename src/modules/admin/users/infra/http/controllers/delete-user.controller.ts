@@ -1,8 +1,8 @@
 import {
   DeletedAndUpdatedDataResponseDto,
-  ErrorBadRequestResponseDto, /*RequireAccess*/
-  IsAdmin,
-  TenantId,
+  ErrorBadRequestResponseDto,
+  type IUserDecorator,
+  User,
 } from '@/src/infra';
 import {
   Controller,
@@ -41,8 +41,7 @@ export class DeleteUserController {
   @Delete(':id')
   async handle(
     @Param('id', ParseIntPipe) id: number,
-    @IsAdmin() isAdmin: boolean,
-    @TenantId() tenantId: number,
+    @User() { isAdmin, tenantId }: IUserDecorator,
   ) {
     return await this.deleteUserUseCase.execute({ id, isAdmin, tenantId });
   }

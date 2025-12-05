@@ -1,9 +1,9 @@
 import {
   AuthGuard,
-  ErrorBadRequestResponseDto /*RequireAccess*/,
-  TenantId,
+  ErrorBadRequestResponseDto, /*RequireAccess*/
+  type IUserDecorator,
 } from '@/src/infra';
-import { IsAdmin } from '@/src/infra/decorators';
+import { User } from '@/src/infra/decorators';
 import {
   Body,
   Controller,
@@ -42,9 +42,9 @@ export class CreateUserController {
   @ApiOkResponse({ type: ReadUserResponseDto })
   @Post()
   async handle(
-    @IsAdmin() isAdmin: boolean,
-    @TenantId() tenantId: number,
-    @Body() request: CreateUserRequestDto,
+    @User() { isAdmin, tenantId }: IUserDecorator,
+    @Body()
+    request: CreateUserRequestDto,
   ) {
     return await this.createUserUseCase.execute({ isAdmin, tenantId, request });
   }
