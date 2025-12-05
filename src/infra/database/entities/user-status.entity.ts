@@ -1,11 +1,11 @@
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
+import { UsersEntity } from './users.entity';
 
 @Entity('user_status')
 export class UserStatusEntity {
@@ -18,9 +18,12 @@ export class UserStatusEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn()
-  updatedAt?: Date;
+  @Column({ type: 'timestamp', nullable: true, default: null })
+  updatedAt: Date | null;
 
-  @DeleteDateColumn()
-  deletedAt?: Date;
+  @Column({ type: 'timestamp', nullable: true, default: null })
+  deletedAt: Date | null;
+
+  @OneToMany(() => UsersEntity, (user) => user.id)
+  users: UsersEntity[];
 }

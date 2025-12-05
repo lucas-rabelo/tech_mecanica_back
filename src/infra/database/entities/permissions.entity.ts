@@ -1,11 +1,11 @@
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
+import { UsersEntity } from './users.entity';
 
 @Entity('permissions')
 export class PermissionsEntity {
@@ -18,9 +18,12 @@ export class PermissionsEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ nullable: true })
+  @Column({ type: 'timestamp', nullable: true, default: null })
   updatedAt: Date | null;
 
-  @DeleteDateColumn({ nullable: true })
+  @Column({ type: 'timestamp', nullable: true, default: null })
   deletedAt: Date | null;
+
+  @OneToMany(() => UsersEntity, (user) => user.id)
+  users: UsersEntity[];
 }

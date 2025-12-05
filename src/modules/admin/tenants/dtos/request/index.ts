@@ -1,0 +1,3 @@
+export * from './create-tenants-request.dto';
+export * from './filters-list-tenants-request.dto';
+export * from './update-tenants-request.dto';

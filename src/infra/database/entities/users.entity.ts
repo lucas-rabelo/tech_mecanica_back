@@ -1,12 +1,11 @@
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { PermissionsEntity } from './permissions.entity';
 import { TenantsEntity } from './tenants.entity';
@@ -35,24 +34,33 @@ export class UsersEntity {
   @Column('varchar', { length: 20, unique: true })
   document: string;
 
-  @OneToOne(() => TenantsEntity, (tenant) => tenant.id)
-  @JoinColumn({ name: 'tenant_id' })
-  tenantId: TenantsEntity;
+  @ManyToOne(() => TenantsEntity, { nullable: true })
+  @JoinColumn({ name: 'tenantId' })
+  tenants?: TenantsEntity;
 
-  @OneToOne(() => PermissionsEntity, (permission) => permission.id)
-  @JoinColumn({ name: 'permission_id' })
-  permission: PermissionsEntity;
-
-  @OneToOne(() => UserStatusEntity, (tenant) => tenant.id)
-  @JoinColumn({ name: 'user_status_id' })
+  @Column()
+  tenantId?: number;
+  
+  @ManyToOne(() => PermissionsEntity, { nullable: true })
+  @JoinColumn({ name: 'permissionId' })
+  permissions: PermissionsEntity;
+  
+  @Column({ nullable: true })
+  permissionId?: number;
+  
+  @ManyToOne(() => UserStatusEntity)
+  @JoinColumn({ name: 'userStatusId' })
   userStatus: UserStatusEntity;
+  
+  @Column()
+  userStatusId: number;
 
   @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn()
-  updatedAt?: Date;
+  @Column({ type: 'timestamp', nullable: true, default: null })
+  updatedAt: Date | null;
 
-  @DeleteDateColumn()
-  deletedAt?: Date;
+  @Column({ type: 'timestamp', nullable: true, default: null })
+  deletedAt: Date | null;
 }
