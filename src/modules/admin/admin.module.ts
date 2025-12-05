@@ -4,6 +4,7 @@ import { TenantMiddleware, TenantsEntity } from "../../infra";
 import {
   AuthModule,
   ModulesModule,
+  PagesModule,
   PermissionsModule,
   TenantsModule,
   TenantStatusModule,
@@ -15,6 +16,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 const modules = [
   AuthModule,
   ModulesModule,
+  PagesModule,
   PermissionsModule,
   TenantsModule,
   TenantStatusModule,

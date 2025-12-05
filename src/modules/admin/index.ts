@@ -1,5 +1,6 @@
 export * from './auth';
 export * from './modules';
+export * from './pages';
 export * from './permissions';
 export * from './tenant-status';
 export * from './tenants';

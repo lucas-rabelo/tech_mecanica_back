@@ -2,8 +2,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { PagesEntity } from './pages.entity';
 
 @Entity('modules')
 export class ModulesEntity {
@@ -21,4 +23,7 @@ export class ModulesEntity {
 
   @Column({ type: 'timestamp', nullable: true, default: null })
   deletedAt: Date | null;
+
+  @OneToMany(() => PagesEntity, (page) => page.id)
+  pages: PagesEntity[];
 }
