@@ -2,21 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {
-  PermissionsModule,
-  TenantsModule,
-  TenantStatusModule,
-  UsersModule,
-  UserStatusModule,
-} from './modules';
 
-const modules = [
-  PermissionsModule,
-  TenantsModule,
-  TenantStatusModule,
-  UserStatusModule,
-  UsersModule,
-];
+import { AdminModule } from './modules';
 
 @Module({
   imports: [
@@ -38,8 +25,7 @@ const modules = [
     JwtModule.register({
       secret: `${process.env.SECRET_ENV}`,
     }),
-    ...modules,
+    AdminModule,
   ],
-  providers: [],
 })
 export class AppModule {}

@@ -1,3 +1,4 @@
+import { ADMIN_USER_ID } from '@/src/core';
 import {
   createParamDecorator,
   ExecutionContext,
@@ -10,6 +11,8 @@ export const User = createParamDecorator(
 
     if (request.user) {
       return {
+        isAdmin: Boolean(request.user.id === ADMIN_USER_ID),
+        tenantId: request.tenantId,
         user: request.user,
         token: request.token,
       };

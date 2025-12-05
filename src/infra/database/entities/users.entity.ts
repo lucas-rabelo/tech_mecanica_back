@@ -34,19 +34,19 @@ export class UsersEntity {
   @Column('varchar', { length: 20, unique: true })
   document: string;
 
-  @ManyToOne(() => TenantsEntity)
+  @ManyToOne(() => TenantsEntity, { nullable: true })
   @JoinColumn({ name: 'tenantId' })
-  tenants: TenantsEntity;
+  tenants?: TenantsEntity;
 
   @Column()
-  tenantId: number;
+  tenantId?: number;
   
-  @ManyToOne(() => PermissionsEntity)
+  @ManyToOne(() => PermissionsEntity, { nullable: true })
   @JoinColumn({ name: 'permissionId' })
   permissions: PermissionsEntity;
   
-  @Column()
-  permissionId: number;
+  @Column({ nullable: true })
+  permissionId?: number;
   
   @ManyToOne(() => UserStatusEntity)
   @JoinColumn({ name: 'userStatusId' })
