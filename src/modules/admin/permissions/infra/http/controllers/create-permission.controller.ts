@@ -2,7 +2,7 @@ import { ErrorBadRequestResponseDto, /*RequireAccess*/ } from '@/src/infra';
 import { Body, Controller, forwardRef, Inject, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  // ApiBearerAuth,
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
@@ -17,7 +17,7 @@ import {
 
 @ApiTags('Permissions')
 @Controller('permissions')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
 @ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
 @ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })

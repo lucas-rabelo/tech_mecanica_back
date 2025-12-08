@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { PagesEntity } from './pages.entity';
+import { PermissionModulesEntity } from './permission-modules.entity';
 
 @Entity('modules')
 export class ModulesEntity {
@@ -26,4 +27,7 @@ export class ModulesEntity {
 
   @OneToMany(() => PagesEntity, (page) => page.id)
   pages: PagesEntity[];
+
+  @OneToMany(() => PermissionModulesEntity, (permissionModule) => permissionModule.id)
+  permissionModules: PermissionModulesEntity[];
 }
