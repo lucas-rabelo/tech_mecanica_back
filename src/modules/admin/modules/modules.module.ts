@@ -1,6 +1,4 @@
-import { ModulesEntity } from '@/src/infra';
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { forwardRef, Module } from '@nestjs/common';
 
 import {
   CreateModuleUseCase,
@@ -18,13 +16,15 @@ import {
   UpdateModuleController,
 } from './infra/http/controllers';
 
+import { AuthModule } from '../auth';
+import { UsersModule } from '../users';
 import {
   ModuleRepositoryTypeOrm,
   ModulesRepository,
 } from './infra/http/database';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ModulesEntity])],
+  imports: [forwardRef(() => AuthModule), forwardRef(() => UsersModule)],
   controllers: [
     CreateModuleController,
     DeleteModuleController,

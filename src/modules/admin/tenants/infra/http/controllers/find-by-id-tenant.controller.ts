@@ -1,4 +1,4 @@
-import { ErrorBadRequestResponseDto, /*RequireAccess*/ } from '@/src/infra';
+import { ErrorBadRequestResponseDto, RequireAccess } from '@/src/infra';
 import {
   Controller,
   forwardRef,
@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  // ApiBearerAuth,
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
@@ -18,10 +18,11 @@ import {
 } from '@nestjs/swagger';
 import { FindByIdTenantUseCase } from '../../../application/use-cases';
 import { ReadTenantsResponseDto } from '../../../dtos';
+import { MODULES, PAGES } from '@/src/core';
 
 @ApiTags('Tenants')
 @Controller('tenants')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
 @ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
 @ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })
@@ -31,7 +32,7 @@ export class FindByIdTenantController {
     private readonly findByIdTenantUseCase: FindByIdTenantUseCase,
   ) {}
 
-  // @RequireAccess({ module: 'Permissions', page: 'FindPermission' })
+  @RequireAccess({ module: MODULES.TENANTS, page: PAGES.FIND_BY_ID_TENANTS })
   @ApiOperation({ summary: 'Finding a tenant by ID' })
   @ApiOkResponse({ type: ReadTenantsResponseDto })
   @Get(':id')

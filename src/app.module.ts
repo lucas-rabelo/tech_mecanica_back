@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AdminModule } from './modules';
+import { APP_GUARD } from '@nestjs/core';
+import { AccessGuard, AuthGuard } from './infra';
+import { AdminModule, SharedJwtModule } from './modules';
 
 @Module({
   imports: [
@@ -22,10 +23,18 @@ import { AdminModule } from './modules';
         migrationsTableName: 'typeorm_migrations',
       }),
     }),
-    JwtModule.register({
-      secret: `${process.env.SECRET_ENV}`,
-    }),
+    SharedJwtModule,
     AdminModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AccessGuard,
+    },
   ],
 })
 export class AppModule {}

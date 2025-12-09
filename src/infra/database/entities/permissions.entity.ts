@@ -6,6 +6,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UsersEntity } from './users.entity';
+import { PermissionModulesEntity } from './permission-modules.entity';
+import { PermissionPagesEntity } from './permission-pages.entity';
 
 @Entity('permissions')
 export class PermissionsEntity {
@@ -24,6 +26,12 @@ export class PermissionsEntity {
   @Column({ type: 'timestamp', nullable: true, default: null })
   deletedAt: Date | null;
 
-  @OneToMany(() => UsersEntity, (user) => user.id)
+  @OneToMany(() => UsersEntity, (user) => user.permission)
   users: UsersEntity[];
+
+  @OneToMany(() => PermissionModulesEntity, (permissionModule) => permissionModule.permissions)
+  permissionModules: PermissionModulesEntity[];
+
+  @OneToMany(() => PermissionPagesEntity, (permissionPage) => permissionPage.permissions)
+  permissionPages: PermissionPagesEntity[];
 }

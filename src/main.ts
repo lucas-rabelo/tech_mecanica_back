@@ -1,18 +1,25 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { DocumentBuilder, SwaggerCustomOptions, SwaggerModule } from '@nestjs/swagger';
+import {
+  DocumentBuilder,
+  SwaggerCustomOptions,
+  SwaggerModule,
+} from '@nestjs/swagger';
 import { SwaggerTheme, SwaggerThemeName } from 'swagger-themes';
+import { AppModule } from './app.module';
+import { AuthGuard } from './infra';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors();
-  app.useGlobalPipes(new ValidationPipe({
-    transform: true,
-    whitelist: true,
-    forbidNonWhitelisted: false,
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: false,
+    }),
+  );
 
   const documentBuilder = new DocumentBuilder()
     .setTitle('Tech Mecânica API')
@@ -29,7 +36,7 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, documentBuilder);
   SwaggerModule.setup(`docs/api`, app, document, options);
-  
+
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

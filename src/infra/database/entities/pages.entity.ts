@@ -4,9 +4,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ModulesEntity } from './modules.entity';
+import { PermissionPagesEntity } from './permission-pages.entity';
 
 @Entity('pages')
 export class PagesEntity {
@@ -31,4 +33,7 @@ export class PagesEntity {
 
   @Column({ type: 'timestamp', nullable: true, default: null })
   deletedAt: Date | null;
+
+  @OneToMany(() => PermissionPagesEntity, (permissionPage) => permissionPage.pages)
+  permissionPages: PermissionPagesEntity[];
 }

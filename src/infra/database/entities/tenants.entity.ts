@@ -18,7 +18,7 @@ export class TenantsEntity {
   @Column('varchar', { length: 255 })
   name: string;
 
-  @ManyToOne(() => TenantStatusEntity)
+  @ManyToOne(() => TenantStatusEntity, (tenantStatus) => tenantStatus.id)
   @JoinColumn({ name: 'tenantStatusId' })
   tenantStatus: TenantStatusEntity;
 
@@ -37,6 +37,6 @@ export class TenantsEntity {
   @Column({ type: 'timestamp', nullable: true, default: null })
   deletedAt: Date | null;
 
-  @OneToMany(() => UsersEntity, (user) => user.id)
+  @OneToMany(() => UsersEntity, (user) => user.tenant)
   users: UsersEntity[];
 }

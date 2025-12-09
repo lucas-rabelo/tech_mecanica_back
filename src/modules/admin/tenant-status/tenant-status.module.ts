@@ -1,6 +1,4 @@
-import { TenantStatusEntity } from '@/src/infra';
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { forwardRef, Module } from '@nestjs/common';
 
 import {
   CreateTenantStatusUseCase,
@@ -15,6 +13,8 @@ import {
   TenantStatusRepositoryTypeOrm,
 } from './infra/http/database';
 
+import { AuthModule } from '../auth';
+import { UsersModule } from '../users';
 import {
   CreateTenantStatusController,
   DeleteTenantStatusController,
@@ -24,7 +24,7 @@ import {
 } from './infra/http/controllers';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TenantStatusEntity])],
+  imports: [forwardRef(() => AuthModule), forwardRef(() => UsersModule)],
   controllers: [
     CreateTenantStatusController,
     DeleteTenantStatusController,

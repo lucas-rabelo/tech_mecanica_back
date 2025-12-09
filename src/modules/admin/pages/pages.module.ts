@@ -1,6 +1,4 @@
-import { PagesEntity } from '@/src/infra';
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { forwardRef, Module } from '@nestjs/common';
 
 import {
   CreatePageUseCase,
@@ -18,13 +16,12 @@ import {
   UpdatePageController,
 } from './infra/http/controllers';
 
-import {
-  PageRepositoryTypeOrm,
-  PagesRepository,
-} from './infra/http/database';
+import { AuthModule } from '../auth';
+import { UsersModule } from '../users';
+import { PageRepositoryTypeOrm, PagesRepository } from './infra/http/database';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PagesEntity])],
+  imports: [forwardRef(() => AuthModule), forwardRef(() => UsersModule)],
   controllers: [
     CreatePageController,
     DeletePageController,

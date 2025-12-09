@@ -34,29 +34,29 @@ export class UsersMapper {
       birthDate: raw.birthDate,
       phone: raw.phone,
       document: raw.document,
-      tenant: raw.tenants ? {
-        id: raw.tenants.id,
-        name: raw.tenants.name,
-        subdomain: raw.tenants.subdomain,
-        tenantStatus: raw.tenants.tenantStatus ? {
-          id: raw.tenants.tenantStatus.id,
-          name: raw.tenants.tenantStatus.name,
-          createdAt: raw.tenants.tenantStatus.createdAt.toISOString(),
-          updatedAt: raw.tenants.tenantStatus.updatedAt
-            ? raw.tenants.tenantStatus.updatedAt.toISOString()
+      tenant: raw.tenant ? {
+        id: raw.tenant.id,
+        name: raw.tenant.name,
+        subdomain: raw.tenant.subdomain,
+        tenantStatus: raw.tenant.tenantStatus ? {
+          id: raw.tenant.tenantStatus.id,
+          name: raw.tenant.tenantStatus.name,
+          createdAt: raw.tenant.tenantStatus.createdAt.toISOString(),
+          updatedAt: raw.tenant.tenantStatus.updatedAt
+            ? raw.tenant.tenantStatus.updatedAt.toISOString()
             : null,
         } : null,
-        createdAt: raw.tenants.createdAt.toISOString(),
-        updatedAt: raw.tenants.updatedAt
-          ? raw.tenants.updatedAt.toISOString()
+        createdAt: raw.tenant.createdAt.toISOString(),
+        updatedAt: raw.tenant.updatedAt
+          ? raw.tenant.updatedAt.toISOString()
           : null,
       } : null,
-      permission: raw.permissions ? {
-        id: raw.permissions.id,
-        name: raw.permissions?.name,
-        createdAt: raw.permissions?.createdAt.toISOString(),
-        updatedAt: raw.permissions?.updatedAt
-          ? raw.permissions?.updatedAt.toISOString()
+      permission: raw.permission ? {
+        id: raw.permission.id,
+        name: raw.permission?.name,
+        createdAt: raw.permission?.createdAt.toISOString(),
+        updatedAt: raw.permission?.updatedAt
+          ? raw.permission?.updatedAt.toISOString()
           : null,
       } : null,
       userStatus: {

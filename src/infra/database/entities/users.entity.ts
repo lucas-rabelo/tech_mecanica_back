@@ -4,7 +4,6 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { PermissionsEntity } from './permissions.entity';
@@ -34,24 +33,26 @@ export class UsersEntity {
   @Column('varchar', { length: 20, unique: true })
   document: string;
 
-  @ManyToOne(() => TenantsEntity, { nullable: true })
+  @ManyToOne(() => TenantsEntity, (tenant) => tenant.id, { nullable: true })
   @JoinColumn({ name: 'tenantId' })
-  tenants?: TenantsEntity;
+  tenant?: TenantsEntity;
 
-  @Column()
+  @Column({ nullable: true })
   tenantId?: number;
-  
-  @ManyToOne(() => PermissionsEntity, { nullable: true })
+
+  @ManyToOne(() => PermissionsEntity, (permission) => permission.id, {
+    nullable: true,
+  })
   @JoinColumn({ name: 'permissionId' })
-  permissions: PermissionsEntity;
-  
+  permission: PermissionsEntity;
+
   @Column({ nullable: true })
   permissionId?: number;
-  
-  @ManyToOne(() => UserStatusEntity)
+
+  @ManyToOne(() => UserStatusEntity, (userStatus) => userStatus.id)
   @JoinColumn({ name: 'userStatusId' })
   userStatus: UserStatusEntity;
-  
+
   @Column()
   userStatusId: number;
 
