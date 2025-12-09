@@ -1,7 +1,7 @@
-import { TenantsEntity } from '@/src/infra';
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { forwardRef, Module } from '@nestjs/common';
 
+import { AuthModule } from '../auth';
+import { UsersModule } from '../users';
 import {
   CreateTenantUseCase,
   DeleteTenantUseCase,
@@ -22,7 +22,7 @@ import {
 } from './infra/http/database';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TenantsEntity])],
+  imports: [forwardRef(() => AuthModule), forwardRef(() => UsersModule)],
   controllers: [
     CreateTenantController,
     DeleteTenantController,

@@ -37,8 +37,8 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
     const userWithRelations = await this.usersRepository.findOne({
       where: { id: userSaved.id },
       relations: {
-        tenants: true,
-        permissions: true,
+        tenant: true,
+        permission: true,
         userStatus: true,
       },
     });
@@ -90,8 +90,8 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
         id,
       },
       relations: {
-        tenants: true,
-        permissions: true,
+        tenant: true,
+        permission: true,
         userStatus: true,
       },
     });
@@ -110,8 +110,8 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
         deletedAt: undefined,
       },
       relations: {
-        tenants: true,
-        permissions: true,
+        tenant: true,
+        permission: true,
         userStatus: true,
       },
     });
@@ -137,8 +137,8 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
         deletedAt: undefined,
       },
       relations: {
-        tenants: true,
-        permissions: true,
+        tenant: true,
+        permission: true,
         userStatus: true,
       },
     });
@@ -203,8 +203,8 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
       take,
       order,
       relations: {
-        tenants: true,
-        permissions: true,
+        tenant: true,
+        permission: true,
         userStatus: true,
       },
     });

@@ -1,8 +1,8 @@
-import { ErrorBadRequestResponseDto, /*RequireAccess*/ } from '@/src/infra';
+import { ErrorBadRequestResponseDto, RequireAccess } from '@/src/infra';
 import { Controller, forwardRef, Get, Inject, Query } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  // ApiBearerAuth,
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
@@ -14,10 +14,11 @@ import {
   FiltersListTenantsRequestDto,
   ListTenantsResponseDto,
 } from '../../../dtos';
+import { MODULES, PAGES } from '@/src/core';
 
 @ApiTags('Tenants')
 @Controller('tenants')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
 @ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
 @ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })
@@ -27,7 +28,7 @@ export class ListTenantController {
     private readonly listTenantUseCase: ListTenantUseCase,
   ) {}
 
-  // @RequireAccess({ module: 'Permissions', page: 'ListPermission' })
+  @RequireAccess({ module: MODULES.TENANTS, page: PAGES.LIST_TENANTS })
   @ApiOperation({ summary: 'List of permissions' })
   @ApiOkResponse({ type: ListTenantsResponseDto })
   @Get()

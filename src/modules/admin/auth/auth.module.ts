@@ -1,5 +1,4 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from '../users';
 
 import {
@@ -16,22 +15,17 @@ import {
   ResetPasswordAuthUseCase,
 } from './application/use-cases';
 
+import { DatabaseModule } from '@/src/infra';
+import { SharedJwtModule } from '../../shared';
 import {
   ForgotPasswordAuthController,
   LoginAuthController,
   RegisterAuthController,
   ResetPasswordAuthController,
 } from './infra';
-import { AuthGuard } from '@/src/infra';
 
 @Module({
-  imports: [
-    JwtModule.register({
-      secret: process.env.SECRET_ENV,
-      signOptions: { expiresIn: '1h' },
-    }),
-    forwardRef(() => UsersModule),
-  ],
+  imports: [DatabaseModule, SharedJwtModule, forwardRef(() => UsersModule)],
   controllers: [
     ForgotPasswordAuthController,
     LoginAuthController,
@@ -54,6 +48,8 @@ import { AuthGuard } from '@/src/infra';
     CreateTokenJwtService,
     EncryptedPasswordService,
     LoginAuthUseCase,
+    SharedJwtModule,
+    DatabaseModule,
   ],
 })
 export class AuthModule {}

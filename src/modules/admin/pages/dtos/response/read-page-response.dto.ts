@@ -11,8 +11,8 @@ export class ReadPageResponseDto {
   @IsString()
   name: string;
 
-  @ApiProperty({ type: ReadModuleResponseDto })
-  module: ReadModuleResponseDto;
+  @ApiProperty({ type: ReadModuleResponseDto, nullable: true })
+  module: ReadModuleResponseDto | null;
   
   @ApiProperty({ example: '2025-11-12T16:25:00.000Z' })
   @IsDateString()
