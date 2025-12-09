@@ -4,12 +4,10 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { PagesEntity } from './pages.entity';
-import { PermissionsEntity } from './permissions.entity';
 import { ModulesEntity } from './modules.entity';
+import { PermissionsEntity } from './permissions.entity';
 
 @Entity('permission_modules')
 export class PermissionModulesEntity {
@@ -22,10 +20,10 @@ export class PermissionModulesEntity {
 
   @Column({ type: 'int' })
   permissionId: number;
-  
+
   @ManyToOne(() => ModulesEntity)
   @JoinColumn({ name: 'moduleId' })
-  modules: PermissionsEntity;
+  modules: ModulesEntity;
 
   @Column({ type: 'int' })
   moduleId: number;
@@ -38,7 +36,4 @@ export class PermissionModulesEntity {
 
   @Column({ type: 'timestamp', nullable: true, default: null })
   deletedAt: Date | null;
-
-  @OneToMany(() => PagesEntity, (page) => page.id)
-  pages: PagesEntity[];
 }

@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { UsersEntity } from './users.entity';
 import { PermissionModulesEntity } from './permission-modules.entity';
+import { PermissionPagesEntity } from './permission-pages.entity';
 
 @Entity('permissions')
 export class PermissionsEntity {
@@ -30,4 +31,7 @@ export class PermissionsEntity {
 
   @OneToMany(() => PermissionModulesEntity, (permissionModule) => permissionModule.id)
   permissionModules: PermissionModulesEntity[];
+
+  @OneToMany(() => PermissionPagesEntity, (permissionPage) => permissionPage.id)
+  permissionPages: PermissionPagesEntity[];
 }

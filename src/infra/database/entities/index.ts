@@ -1,6 +1,7 @@
 export * from './modules.entity';
 export * from './pages.entity';
 export * from './permission-modules.entity';
+export * from './permission-pages.entity';
 export * from './permissions.entity';
 export * from './tenant-status.entity';
 export * from './tenants.entity';

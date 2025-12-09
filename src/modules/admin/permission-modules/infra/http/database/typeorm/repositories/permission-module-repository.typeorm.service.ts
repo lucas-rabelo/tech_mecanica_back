@@ -89,7 +89,6 @@ export class PermissionModuleRepositoryTypeOrm
     const take = Number(itemsPerPage);
     const order: FindOptionsOrder<PermissionModulesEntity> = {
       id: 'ASC',
-      deletedAt: undefined,
     };
 
     let where:

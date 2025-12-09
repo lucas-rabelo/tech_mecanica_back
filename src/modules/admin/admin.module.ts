@@ -8,6 +8,7 @@ import { AuthModule } from './auth';
 import { ModulesModule } from './modules';
 import { PagesModule } from './pages';
 import { PermissionModulesModule } from './permission-modules';
+import { PermissionPagesModule } from './permission-pages';
 import { PermissionsModule } from './permissions';
 import { TenantStatusModule } from './tenant-status';
 import { TenantsModule } from './tenants';
@@ -20,6 +21,7 @@ const modules = [
   PagesModule,
   PermissionsModule,
   PermissionModulesModule,
+  PermissionPagesModule,
   TenantsModule,
   TenantStatusModule,
   UserStatusModule,
