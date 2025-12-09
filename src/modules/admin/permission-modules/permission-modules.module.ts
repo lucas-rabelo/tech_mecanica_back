@@ -1,6 +1,4 @@
-import { PermissionModulesEntity } from '@/src/infra';
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { forwardRef, Module } from '@nestjs/common';
 
 import {
   CreatePermissionModuleUseCase,
@@ -18,13 +16,15 @@ import {
   UpdatePermissionModuleController,
 } from './infra/http/controllers';
 
+import { AuthModule } from '../auth';
+import { UsersModule } from '../users';
 import {
   PermissionModuleRepositoryTypeOrm,
   PermissionModulesRepository,
 } from './infra/http/database';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PermissionModulesEntity])],
+  imports: [forwardRef(() => AuthModule), forwardRef(() => UsersModule)],
   controllers: [
     CreatePermissionModuleController,
     DeletePermissionModuleController,

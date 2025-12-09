@@ -24,6 +24,6 @@ export class UserStatusEntity {
   @Column({ type: 'timestamp', nullable: true, default: null })
   deletedAt: Date | null;
 
-  @OneToMany(() => UsersEntity, (user) => user.id)
+  @OneToMany(() => UsersEntity, (user) => user.userStatus)
   users: UsersEntity[];
 }

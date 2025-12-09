@@ -1,7 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { TenantsEntity } from '../../infra/database';
 import { TenantMiddleware } from '../../infra/middleware';
 
 import { AuthModule } from './auth';
@@ -28,10 +26,8 @@ const modules = [
   UsersModule,
 ];
 
-const entities = [TenantsEntity];
-
 @Module({
-  imports: [TypeOrmModule.forFeature(entities), ...modules],
+  imports: modules,
   exports: modules,
 })
 export class AdminModule implements NestModule {

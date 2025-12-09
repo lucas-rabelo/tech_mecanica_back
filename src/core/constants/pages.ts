@@ -1,0 +1,55 @@
+export const PAGES = {
+  CREATE_USERS: 'CreateUser',
+  FIND_BY_ID_USERS: 'FindByIdUser',
+  UPDATE_USERS: 'UpdateUser',
+  DELETE_USERS: 'DeleteUser',
+  LIST_USERS: 'ListUser',
+
+  CREATE_MODULES: 'CreateModule',
+  FIND_BY_ID_MODULES: 'FindByIdModule',
+  UPDATE_MODULES: 'UpdateModule',
+  DELETE_MODULES: 'DeleteModule',
+  LIST_MODULES: 'ListModule',
+
+  CREATE_PAGES: 'CreatePage',
+  FIND_BY_ID_PAGES: 'FindByIdPage',
+  UPDATE_PAGES: 'UpdatePage',
+  DELETE_PAGES: 'DeletePage',
+  LIST_PAGES: 'ListPage',
+
+  CREATE_PERMISSION_MODULES: 'CreatePermissionModule',
+  FIND_BY_ID_PERMISSION_MODULES: 'FindByIdPermissionModule',
+  UPDATE_PERMISSION_MODULES: 'UpdatePermissionModule',
+  DELETE_PERMISSION_MODULES: 'DeletePermissionModule',
+  LIST_PERMISSION_MODULES: 'ListPermissionModule',
+
+  CREATE_PERMISSION_PAGES: 'CreatePermissionPage',
+  FIND_BY_ID_PERMISSION_PAGES: 'FindByIdPermissionPage',
+  UPDATE_PERMISSION_PAGES: 'UpdatePermissionPage',
+  DELETE_PERMISSION_PAGES: 'DeletePermissionPage',
+  LIST_PERMISSION_PAGES: 'ListPermissionPage',
+
+  CREATE_PERMISSIONS: 'CreatePermission',
+  FIND_BY_ID_PERMISSIONS: 'FindByIdPermission',
+  UPDATE_PERMISSIONS: 'UpdatePermission',
+  DELETE_PERMISSIONS: 'DeletePermission',
+  LIST_PERMISSIONS: 'ListPermission',
+
+  CREATE_TENANT_STATUS: 'CreateTenantStatus',
+  FIND_BY_ID_TENANT_STATUS: 'FindByIdTenantStatus',
+  UPDATE_TENANT_STATUS: 'UpdateTenantStatus',
+  DELETE_TENANT_STATUS: 'DeleteTenantStatus',
+  LIST_TENANT_STATUS: 'ListTenantStatus',
+
+  CREATE_TENANTS: 'CreateTenant',
+  FIND_BY_ID_TENANTS: 'FindByIdTenant',
+  UPDATE_TENANTS: 'UpdateTenant',
+  DELETE_TENANTS: 'DeleteTenant',
+  LIST_TENANTS: 'ListTenant',
+
+  CREATE_USER_STATUS: 'CreateUserStatus',
+  FIND_BY_ID_USER_STATUS: 'FindByIdUserStatus',
+  UPDATE_USER_STATUS: 'UpdateUserStatus',
+  DELETE_USER_STATUS: 'DeleteUserStatus',
+  LIST_USER_STATUS: 'ListUserStatus',
+};

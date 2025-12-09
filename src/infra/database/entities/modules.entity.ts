@@ -25,9 +25,9 @@ export class ModulesEntity {
   @Column({ type: 'timestamp', nullable: true, default: null })
   deletedAt: Date | null;
 
-  @OneToMany(() => PagesEntity, (page) => page.id)
+  @OneToMany(() => PagesEntity, (page) => page.modules)
   pages: PagesEntity[];
 
-  @OneToMany(() => PermissionModulesEntity, (permissionModule) => permissionModule.id)
+  @OneToMany(() => PermissionModulesEntity, (permissionModule) => permissionModule.modules)
   permissionModules: PermissionModulesEntity[];
 }

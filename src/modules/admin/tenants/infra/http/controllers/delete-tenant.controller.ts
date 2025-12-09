@@ -1,4 +1,4 @@
-import { DeletedAndUpdatedDataResponseDto, ErrorBadRequestResponseDto, /*RequireAccess*/ } from '@/src/infra';
+import { DeletedAndUpdatedDataResponseDto, ErrorBadRequestResponseDto, RequireAccess } from '@/src/infra';
 import {
   Controller,
   Delete,
@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  // ApiBearerAuth,
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
@@ -17,10 +17,11 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { DeleteTenantUseCase } from '../../../application/use-cases';
+import { MODULES, PAGES } from '@/src/core';
 
 @ApiTags('Tenants')
 @Controller('tenants')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
 @ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
 @ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })
@@ -30,7 +31,7 @@ export class DeleteTenantController {
     private readonly deleteTenantUseCase: DeleteTenantUseCase,
   ) {}
 
-  // @RequireAccess({ module: 'Permissions', page: 'DeletePermission' })
+  @RequireAccess({ module: MODULES.TENANTS, page: PAGES.DELETE_TENANTS })
   @ApiOperation({ summary: 'Deleting a tenant' })
   @ApiOkResponse({ type: DeletedAndUpdatedDataResponseDto })
   @Delete(':id')

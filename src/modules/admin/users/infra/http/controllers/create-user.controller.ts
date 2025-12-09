@@ -1,6 +1,7 @@
 import {
   AuthGuard,
-  ErrorBadRequestResponseDto, /*RequireAccess*/
+  ErrorBadRequestResponseDto,
+  RequireAccess,
   type IUserDecorator,
 } from '@/src/infra';
 import { User } from '@/src/infra/decorators';
@@ -23,6 +24,7 @@ import {
 } from '@nestjs/swagger';
 import { CreateUserUseCase } from '../../../application/use-cases';
 import { CreateUserRequestDto, ReadUserResponseDto } from '../../../dtos';
+import { MODULES, PAGES } from '@/src/core';
 
 @ApiTags('Users')
 @Controller('users')
@@ -37,7 +39,7 @@ export class CreateUserController {
     private readonly createUserUseCase: CreateUserUseCase,
   ) {}
 
-  // @RequireAccess({ module: 'Users', page: 'CreateUser' })
+  @RequireAccess({ module: MODULES.USERS, page: PAGES.CREATE_USERS })
   @ApiOperation({ summary: 'Creating a new user' })
   @ApiOkResponse({ type: ReadUserResponseDto })
   @Post()

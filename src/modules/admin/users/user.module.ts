@@ -1,8 +1,7 @@
-import { UsersEntity } from '@/src/infra';
+import { DatabaseModule } from '@/src/infra';
 import { forwardRef, Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { JwtModule } from '@nestjs/jwt';
+import { SharedJwtModule } from '../../shared';
 import { AuthModule } from '../auth';
 import {
   CreateUserUseCase,
@@ -21,13 +20,7 @@ import {
 import { UsersRepository, UsersRepositoryTypeOrm } from './infra/http/database';
 
 @Module({
-  imports: [
-    JwtModule.register({
-      secret: `${process.env.SECRET_ENV}`,
-    }),
-    TypeOrmModule.forFeature([UsersEntity]),
-    forwardRef(() => AuthModule),
-  ],
+  imports: [DatabaseModule, SharedJwtModule, forwardRef(() => AuthModule)],
   controllers: [
     CreateUserController,
     DeleteUserController,
