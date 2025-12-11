@@ -1,4 +1,4 @@
-import { ErrorBadRequestResponseDto, /*RequireAccess*/ } from '@/src/infra';
+import { ErrorBadRequestResponseDto, RequireAccess } from '@/src/infra';
 import {
   Controller,
   Delete,
@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  // ApiBearerAuth,
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
@@ -20,7 +20,7 @@ import { DeleteUserStatusUseCase } from '../../../application/use-cases';
 
 @ApiTags('User status')
 @Controller('user-status')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
 @ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
 @ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })
@@ -30,7 +30,7 @@ export class DeleteUserStatusController {
     private readonly deleteUserStatusUseCase: DeleteUserStatusUseCase,
   ) {}
 
-  // @RequireAccess({ module: 'Permissions', page: 'DeletePermission' })
+  @RequireAccess({ module: 'UserStatus', page: 'DeleteUserStatus' })
   @ApiOperation({ summary: 'Deleting a user status' })
   @ApiOkResponse()
   @Delete(':id')

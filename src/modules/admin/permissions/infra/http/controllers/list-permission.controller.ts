@@ -1,4 +1,4 @@
-import { ErrorBadRequestResponseDto, /*RequireAccess*/ } from '@/src/infra';
+import { ErrorBadRequestResponseDto, RequireAccess } from '@/src/infra';
 import { Controller, forwardRef, Get, Inject, Query } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -27,7 +27,7 @@ export class ListPermissionController {
     private readonly listPermissionUseCase: ListPermissionUseCase,
   ) {}
 
-  // @RequireAccess({ module: 'Permissions', page: 'ListPermission' })
+  @RequireAccess({ module: 'Permissions', page: 'ListPermission' })
   @ApiOperation({ summary: 'List of permissions' })
   @ApiOkResponse({ type: ListPermissionsResponseDto })
   @Get()

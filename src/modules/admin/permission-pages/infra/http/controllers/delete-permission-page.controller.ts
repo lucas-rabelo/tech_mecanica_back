@@ -1,4 +1,4 @@
-import { ErrorBadRequestResponseDto, /*RequireAccess*/ } from '@/src/infra';
+import { ErrorBadRequestResponseDto, RequireAccess } from '@/src/infra';
 import {
   Controller,
   Delete,
@@ -30,7 +30,7 @@ export class DeletePermissionPageController {
     private readonly deletePermissionPageUseCase: DeletePermissionPageUseCase,
   ) {}
 
-  // @RequireAccess({ module: 'Permission Pages', page: 'DeletePermission' })
+  @RequireAccess({ module: 'PermissionPages', page: 'DeletePermissionPage' })
   @ApiOperation({ summary: 'Deleting a permission page' })
   @ApiOkResponse()
   @Delete(':id')

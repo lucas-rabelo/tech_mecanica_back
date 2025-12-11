@@ -1,8 +1,8 @@
-import { ErrorBadRequestResponseDto, /*RequireAccess*/ } from '@/src/infra';
+import { ErrorBadRequestResponseDto, RequireAccess } from '@/src/infra';
 import { Body, Controller, forwardRef, Inject, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  // ApiBearerAuth,
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
@@ -17,7 +17,7 @@ import {
 
 @ApiTags('User status')
 @Controller('user-status')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
 @ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
 @ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })
@@ -27,7 +27,7 @@ export class CreateUserStatusController {
     private readonly createUserStatusUseCase: CreateUserStatusUseCase,
   ) {}
 
-  // @RequireAccess({ module: 'Permissions', page: 'CreatePermission' })
+  @RequireAccess({ module: 'UserStatus', page: 'CreateUserStatus' })
   @ApiOperation({ summary: 'Creating a new user status' })
   @ApiOkResponse({ type: ReadUserStatusResponseDto })
   @Post()

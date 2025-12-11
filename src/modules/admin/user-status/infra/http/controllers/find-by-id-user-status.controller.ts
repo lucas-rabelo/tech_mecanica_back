@@ -1,4 +1,4 @@
-import { ErrorBadRequestResponseDto /*RequireAccess*/ } from '@/src/infra';
+import { ErrorBadRequestResponseDto, RequireAccess } from '@/src/infra';
 import {
   Controller,
   forwardRef,
@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  // ApiBearerAuth,
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
@@ -21,7 +21,7 @@ import { ReadUserStatusResponseDto } from '../../../dtos';
 
 @ApiTags('User status')
 @Controller('user-status')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
 @ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
 @ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })
@@ -31,7 +31,7 @@ export class FindByIdUserStatusController {
     private readonly findByIdUserStatusUseCase: FindByIdUserStatusUseCase,
   ) {}
 
-  // @RequireAccess({ module: 'Permissions', page: 'FindPermission' })
+  @RequireAccess({ module: 'UserStatus', page: 'FindUserStatus' })
   @ApiOperation({ summary: 'Finding a user status by ID' })
   @ApiOkResponse({ type: ReadUserStatusResponseDto })
   @Get(':id')
