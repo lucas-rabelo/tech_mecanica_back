@@ -1,3 +1,3 @@
 export * from './entities';
-export * from './database-source';
+export * from './data-sources';
 export * from './database.module';

@@ -1,3 +1,4 @@
+export * from './client';
 export * from './modules.entity';
 export * from './pages.entity';
 export * from './permission-modules.entity';
