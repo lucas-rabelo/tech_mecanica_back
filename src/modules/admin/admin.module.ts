@@ -1,6 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-
-import { TenantMiddleware } from '../../infra/middleware';
+import { Module } from '@nestjs/common';
 
 import { AuthModule } from './auth';
 import { ModulesModule } from './modules';
@@ -30,8 +28,4 @@ const modules = [
   imports: modules,
   exports: modules,
 })
-export class AdminModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(TenantMiddleware).forRoutes('*');
-  }
-}
+export class AdminModule {}
