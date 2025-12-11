@@ -1,4 +1,4 @@
-import { ErrorBadRequestResponseDto /*RequireAccess*/ } from '@/src/infra';
+import { ErrorBadRequestResponseDto, RequireAccess } from '@/src/infra';
 import {
   Controller,
   forwardRef,
@@ -31,7 +31,7 @@ export class FindByIdPermissionModuleController {
     private readonly findByIdPermissionModuleUseCase: FindByIdPermissionModuleUseCase,
   ) {}
 
-  // @RequireAccess({ module: 'Permission Modules', page: 'FindPermission' })
+  @RequireAccess({ module: 'PermissionModules', page: 'FindPermissionModule' })
   @ApiOperation({ summary: 'Finding a module by ID' })
   @ApiOkResponse({ type: ReadPermissionModuleResponseDto })
   @Get(':id')
