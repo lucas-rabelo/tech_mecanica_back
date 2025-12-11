@@ -1,4 +1,4 @@
-import { ErrorBadRequestResponseDto, /*RequireAccess*/ } from '@/src/infra';
+import { ErrorBadRequestResponseDto, RequireAccess } from '@/src/infra';
 import {
   Body,
   Controller,
@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  // ApiBearerAuth,
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
@@ -25,7 +25,7 @@ import {
 
 @ApiTags('Tenant status')
 @Controller('tenant-status')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
 @ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
 @ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })
@@ -35,7 +35,7 @@ export class UpdateTenantStatusController {
     private readonly updateTenantStatusUseCase: UpdateTenantStatusUseCase,
   ) {}
 
-  // @RequireAccess({ module: 'Permissions', page: 'UpdatePermission' })
+  @RequireAccess({ module: 'TenantStatus', page: 'UpdateTenantStatus' })
   @ApiOperation({ summary: 'Updating a Tenant status' })
   @ApiOkResponse({ type: ReadTenantStatusResponseDto })
   @Put(':id')

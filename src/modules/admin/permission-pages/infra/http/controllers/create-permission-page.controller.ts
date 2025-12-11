@@ -1,4 +1,4 @@
-import { ErrorBadRequestResponseDto, /*RequireAccess*/ } from '@/src/infra';
+import { ErrorBadRequestResponseDto, RequireAccess } from '@/src/infra';
 import { Body, Controller, forwardRef, Inject, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -27,7 +27,7 @@ export class CreatePermissionPageController {
     private readonly createPermissionPageUseCase: CreatePermissionPageUseCase,
   ) {}
 
-  // @RequireAccess({ module: 'Permission Pages', page: 'CreatePermission' })
+  @RequireAccess({ module: 'PermissionPages', page: 'CreatePermissionPage' })
   @ApiOperation({ summary: 'Creating a new permission page' })
   @ApiOkResponse({ type: ReadPermissionPageResponseDto })
   @Post()

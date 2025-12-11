@@ -1,4 +1,4 @@
-import { ErrorBadRequestResponseDto, /*RequireAccess*/ } from '@/src/infra';
+import { ErrorBadRequestResponseDto, RequireAccess } from '@/src/infra';
 import {
   Body,
   Controller,
@@ -35,7 +35,7 @@ export class UpdateModuleController {
     private readonly updateModuleUseCase: UpdateModuleUseCase,
   ) {}
 
-  // @RequireAccess({ module: 'Modules', page: 'UpdatePermission' })
+  @RequireAccess({ module: 'Modules', page: 'UpdateModule' })
   @ApiOperation({ summary: 'Updating a module' })
   @ApiOkResponse({ type: ReadModuleResponseDto })
   @Put(':id')

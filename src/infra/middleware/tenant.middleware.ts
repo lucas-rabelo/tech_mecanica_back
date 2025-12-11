@@ -1,11 +1,11 @@
-import { ADMIN_USER_ID } from '@/src/core';
+import { ADMIN_USER_ID, RequestContextService } from '@/src/core';
 import { FindUserAuthResponseDto } from '@/src/modules';
-import { ValidateTokenJwtService } from '../../modules/admin/auth/application/services/validate-token-jwt.service';
-import { LoginAuthUseCase } from '../../modules/admin/auth/application/use-cases/login-auth.useCase';
 import { Injectable, NestMiddleware, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { NextFunction, Request, Response } from 'express';
 import { Repository } from 'typeorm';
+import { ValidateTokenJwtService } from '../../modules/admin/auth/application/services/validate-token-jwt.service';
+import { LoginAuthUseCase } from '../../modules/admin/auth/application/use-cases/login-auth.useCase';
 import { TenantsEntity } from '../database';
 
 @Injectable()
@@ -15,6 +15,7 @@ export class TenantMiddleware implements NestMiddleware {
     private readonly tenantsRepository: Repository<TenantsEntity>,
     private readonly loginAuthUseCase: LoginAuthUseCase,
     private readonly validateTokenJwtService: ValidateTokenJwtService,
+    private readonly requestContextService: RequestContextService,
   ) {}
 
   async use(req: Request, _res: Response, next: NextFunction) {
@@ -26,16 +27,17 @@ export class TenantMiddleware implements NestMiddleware {
         where: { subdomain },
       });
 
-      let token: string | null = null; 
+      let token: string | null = null;
       let data: FindUserAuthResponseDto | null = null;
       if (!tenant) {
         token = req.headers['authorization']?.split(' ')[1] ?? null;
 
         if (!token) {
           const { email, password } = req.body;
-          token = (await this.loginAuthUseCase.execute({ email, password })).access_token;
+          token = (await this.loginAuthUseCase.execute({ email, password }))
+            .access_token;
         }
-        
+
         data = await this.validateTokenJwtService.execute(token, {});
 
         if (!data || data.id !== ADMIN_USER_ID) {
@@ -48,11 +50,12 @@ export class TenantMiddleware implements NestMiddleware {
       (req as any).token = token;
       (req as any).user = data;
 
-
-      next();
+      this.requestContextService.run({ tenantId: tenant?.id }, async () => {
+        next();
+      });
     } catch (error) {
       throw new NotFoundException(
-        'Não foi possível fazer login, entre em contato com o suporte.',
+        'We were unable to log in, please contact support.',
       );
     }
   }
