@@ -1,4 +1,5 @@
 // request-context.service.ts
+import type { IUserDecorator } from '@/src/infra';
 import { Injectable } from '@nestjs/common';
 import { AsyncLocalStorage } from 'async_hooks';
 
@@ -20,7 +21,11 @@ export class RequestContextService {
     return RequestContextService.als.getStore()?.get(key);
   }
 
-  getTenantId(): string | undefined {
-    return this.get<string>('tenantId');
+  getTenantId(): number | undefined {
+    return this.get<number>('tenantId');
+  }
+
+  getUserId(): number | undefined {
+    return this.get<IUserDecorator>('user')?.user.id;
   }
 }

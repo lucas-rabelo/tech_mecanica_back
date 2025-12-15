@@ -27,36 +27,54 @@ export class TenantMiddleware implements NestMiddleware {
         where: { subdomain },
       });
 
-      let token: string | null = null;
+      let token: string | null =
+        req.headers['authorization']?.split(' ')[1] ?? null;
       let data: FindUserAuthResponseDto | null = null;
       if (!tenant) {
-        token = req.headers['authorization']?.split(' ')[1] ?? null;
-
-        if (!token) {
-          const { email, password } = req.body;
-          token = (await this.loginAuthUseCase.execute({ email, password }))
-            .access_token;
-        }
-
-        data = await this.validateTokenJwtService.execute(token, {});
+        data = await this.getUserData(req, token);
 
         if (!data || data.id !== ADMIN_USER_ID) {
           throw Error();
         }
+
+        req.user = data;
       }
 
-      (req as any).tenantId = tenant?.id;
-      (req as any).tenant = tenant;
-      (req as any).token = token;
-      (req as any).user = data;
+      data = await this.getUserData(req, token);
 
-      this.requestContextService.run({ tenantId: tenant?.id }, async () => {
-        next();
-      });
+      if (!data) {
+        throw Error();
+      }
+
+      req.user = data;
+      req.tenantId = tenant?.id;
+      req.tenant = tenant;
+      req.token = token;
+
+      this.requestContextService.run(
+        { tenantId: req.tenantId, userId: req.user.id },
+        async () => {
+          next();
+        },
+      );
     } catch (error) {
       throw new NotFoundException(
         'We were unable to log in, please contact support.',
       );
     }
+  }
+
+  async getUserData(
+    req: Request,
+    token: string | null,
+  ): Promise<FindUserAuthResponseDto | null> {
+    let newToken: string | null = token;
+    if (!newToken) {
+      const { email, password } = req.body;
+      newToken = (await this.loginAuthUseCase.execute({ email, password }))
+        .access_token;
+    }
+
+    return await this.validateTokenJwtService.execute(newToken, {});
   }
 }
