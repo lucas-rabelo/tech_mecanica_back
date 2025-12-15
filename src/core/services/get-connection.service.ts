@@ -9,7 +9,7 @@ export class GetConnectionService {
 
   constructor(
     private readonly tenantConn: TenantConnectionService,
-    private readonly context: RequestContextService,
+    protected readonly context: RequestContextService,
   ) {}
 
   async getRepository<T extends ObjectLiteral>(
@@ -20,12 +20,12 @@ export class GetConnectionService {
       throw new BadRequestException('tenantId not found');
     }
 
-    const key = this.getCacheKey(tenantId, entity);
+    const key = this.getCacheKey(String(tenantId), entity);
 
     const cached = this.cache.get(key);
     if (cached) return cached;
 
-    const conn = await this.tenantConn.getConnection(tenantId);
+    const conn = await this.tenantConn.getConnection(String(tenantId));
     if (!conn) {
       throw new Error(`Connection not found for tenant ${tenantId}`);
     }

@@ -1,7 +1,9 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { VehiclesEntity } from "./vehicle.entity";
+import { AuditableEntity } from "./auditable.entity";
 
 @Entity('customers')
-export class CustomerEntity {
+export class CustomerEntity extends AuditableEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -29,12 +31,6 @@ export class CustomerEntity {
   @Column('varchar', { length: 255, nullable: true })
   ownerBackupPhone: string | null;
   
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Column({ type: 'timestamp', nullable: true, default: null })
-  updatedAt: Date | null;
-
-  @Column({ type: 'timestamp', nullable: true, default: null })
-  deletedAt: Date | null;
+  @OneToMany(() => VehiclesEntity, (vehicle) => vehicle.customer)
+  vehicles: VehiclesEntity[]
 }
