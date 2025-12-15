@@ -20,6 +20,7 @@ export abstract class BaseRepositoryTypeOrm<
   TEntity extends AuditableEntity,
 > extends GetConnectionService {
   protected abstract entity: new () => TEntity;
+  protected relations: string[] = [];
 
   constructor(
     tenantConn: TenantConnectionService,
@@ -83,14 +84,21 @@ export abstract class BaseRepositoryTypeOrm<
     return true;
   }
 
-  async findActiveById(id: number): Promise<TEntity | null> {
+  async findActiveById(
+    id: number,
+  ): Promise<TEntity | null> {
     const repository = await this.repo();
 
-    return repository
+    const qb = repository
       .createQueryBuilder('e')
       .where('e.id = :id', { id })
-      .andWhere('e.deletedAt IS NULL')
-      .getOne();
+      .andWhere('e.deletedAt IS NULL');
+
+    this.relations?.forEach((relation) => {
+      qb.leftJoinAndSelect(`e.${relation}`, relation);
+    });
+
+    return qb.getOne();
   }
 
   protected async paginateWithFilters(params: {
@@ -127,9 +135,6 @@ export abstract class BaseRepositoryTypeOrm<
      */
     DynamicFilterBuilder.apply(qb, filters, filterConfig, alias);
 
-    /**
-     * Ordenação segura
-     */
     if (order) {
       Object.entries(order).forEach(([field, direction]) => {
         qb.addOrderBy(`${alias}.${field}`, direction as 'ASC' | 'DESC');
@@ -137,6 +142,10 @@ export abstract class BaseRepositoryTypeOrm<
     }
 
     qb.skip(skip).take(take);
+
+    this.relations?.forEach((relation) => {
+      qb.leftJoinAndSelect(`e.${relation}`, relation);
+    });
 
     const [data, total] = await qb.getManyAndCount();
 

@@ -1,3 +1,4 @@
+import { ServicesModule } from '@/src/core';
 import { TenantMiddleware } from '@/src/infra';
 import {
   forwardRef,
@@ -7,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { AuthModule, UsersModule } from '../admin';
 import { CustomersModule } from './customers';
-import { ServicesModule } from '@/src/core';
+import { VehiclesModule } from './vehicles';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ServicesModule } from '@/src/core';
     forwardRef(() => AuthModule),
     forwardRef(() => UsersModule),
     CustomersModule,
+    VehiclesModule,
   ],
 })
 export class ApplicationModule implements NestModule {

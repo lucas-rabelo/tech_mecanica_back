@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { VehiclesEntity } from "./vehicle.entity";
 import { AuditableEntity } from "./auditable.entity";
 
@@ -31,6 +31,6 @@ export class CustomerEntity extends AuditableEntity {
   @Column('varchar', { length: 255, nullable: true })
   ownerBackupPhone: string | null;
   
-  @OneToMany(() => VehiclesEntity, (vehicle) => vehicle.customer)
+  @OneToMany(() => VehiclesEntity, (vehicle) => vehicle.customers)
   vehicles: VehiclesEntity[]
 }

@@ -23,11 +23,11 @@ export class VehiclesEntity extends AuditableEntity {
   color: string;
   
   @Column('int')
-  currentMileage: boolean;
+  currentMileage: number;
   
   @ManyToOne(() => CustomerEntity, (customer) => customer.vehicles)
   @JoinColumn({ name: 'customerId' })
-  customer: CustomerEntity;
+  customers: CustomerEntity;
 
   @Column('int')
   customerId: number;
