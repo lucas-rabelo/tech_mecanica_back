@@ -1,9 +1,13 @@
 import {
-  GetConnectionService,
+  BaseRepositoryTypeOrm,
+  DynamicFilterMap,
   RequestContextService,
   TenantConnectionService,
 } from '@/src/core';
-import { CustomerEntity, DeletedAndUpdatedDataResponseDto } from '@/src/infra';
+import {
+  CustomerEntity,
+  DeletedAndUpdatedDataResponseDto,
+} from '@/src/infra';
 import {
   CreateCustomerRequestDto,
   FilterListCustomersRequestDto,
@@ -11,21 +15,16 @@ import {
   ReadCustomerResponseDto,
 } from '@/src/modules/application/customers/dtos';
 import { Injectable } from '@nestjs/common';
-import {
-  Equal,
-  FindOptionsOrder,
-  FindOptionsWhere,
-  IsNull,
-  Like,
-} from 'typeorm';
 import { CustomersRepository } from '../../customers.repository';
 import { CustomerMapper } from '../mappers';
 
 @Injectable()
 export class CustomerRepositoryTypeOrm
-  extends GetConnectionService
+  extends BaseRepositoryTypeOrm<CustomerEntity>
   implements CustomersRepository
 {
+  protected readonly entity = CustomerEntity;
+  
   constructor(
     tenantConn: TenantConnectionService,
     context: RequestContextService,
@@ -33,114 +32,94 @@ export class CustomerRepositoryTypeOrm
     super(tenantConn, context);
   }
 
+  protected readonly filterConfig: DynamicFilterMap<CustomerEntity> =
+  {
+    name: {
+      field: 'name',
+      operator: 'like',
+    },
+    email: {
+      field: 'email',
+      operator: 'like',
+    },
+    document: {
+      field: 'document',
+      operator: 'like',
+    },
+    customerType: {
+      field: 'customerType',
+      operator: 'eq',
+    },
+  };
+
   async create(
     data: CreateCustomerRequestDto,
   ): Promise<ReadCustomerResponseDto> {
-    const customersRepository = await this.getRepository(CustomerEntity);
+    const repository = await this.getRepository<CustomerEntity>(this.entity);
 
-    const customerCreated = customersRepository.create(data);
-    const customerSaved = await customersRepository.save(customerCreated);
-
-    const customerWithRelations = await customersRepository.findOne({
-      where: { id: customerSaved.id },
+    const entity = repository.create({
+      ...data,
+      createdBy: this.userId,
     });
 
-    if (!customerWithRelations) return {} as ReadCustomerResponseDto;
+    const saved = await repository.save(entity);
 
-    return CustomerMapper.toDomain(customerWithRelations);
-  }
-
-  async delete(id: number): Promise<DeletedAndUpdatedDataResponseDto | null> {
-    const customersRepository = await this.getRepository(CustomerEntity);
-
-    const customerDeleted = customersRepository.update(id, {
-      deletedAt: new Date(),
-    });
-
-    if (!customerDeleted) {
-      return null;
-    }
-
-    return { success: true };
-  }
-
-  async findById(id: number): Promise<ReadCustomerResponseDto | null> {
-    const customersRepository = await this.getRepository(CustomerEntity);
-
-    const customerFounded = await customersRepository.findOne({
-      where: {
-        id,
-        deletedAt: undefined,
-      },
-    });
-
-    if (!customerFounded) {
-      return null;
-    }
-
-    return CustomerMapper.toDomain(customerFounded);
-  }
-
-  async list(
-    filters: FilterListCustomersRequestDto,
-  ): Promise<ListCustomersResponseDto> {
-    const customersRepository = await this.getRepository(CustomerEntity);
-
-    const { page, itemsPerPage } = filters;
-
-    const skip = Number((page - 1) * itemsPerPage);
-    const take = Number(itemsPerPage);
-    const order: FindOptionsOrder<CustomerEntity> = { id: 'ASC' };
-
-    let where:
-      | FindOptionsWhere<CustomerEntity>
-      | FindOptionsWhere<CustomerEntity>[] = {
-      deletedAt: IsNull(),
-    };
-
-    if (filters.name) {
-      where.name = Like(`%${filters.name}%`);
-    }
-
-    if (filters.email) {
-      where.email = Like(`%${filters.email}%`);
-    }
-
-    if (filters.document) {
-      where.document = Like(`%${filters.document}%`);
-    }
-
-    if (filters.customerType) {
-      where.customerType = Equal(filters.customerType);
-    }
-
-    console.log({where});
-
-    const [result, total] = await customersRepository.findAndCount({
-      where,
-      skip,
-      take,
-      order,
-    });
-
-    return {
-      total,
-      customers: result.map(CustomerMapper.toDomain),
-    };
+    return CustomerMapper.toDomain(saved);
   }
 
   async update(
     id: number,
     data: CreateCustomerRequestDto,
   ): Promise<DeletedAndUpdatedDataResponseDto | null> {
-    const customersRepository = await this.getRepository(CustomerEntity);
+    const repository = await this.getRepository<CustomerEntity>(this.entity);
 
-    const customerUpdated = customersRepository.update(id, data);
+    const entity = await this.findActiveById(id);
+    if (!entity) return null;
 
-    if (!customerUpdated) {
-      return null;
-    }
+    Object.assign(entity, {
+      ...data,
+      updatedBy: this.userId,
+    });
+
+    await repository.save(entity);
 
     return { success: true };
+  }
+
+  async delete(
+    id: number,
+  ): Promise<DeletedAndUpdatedDataResponseDto | null> {
+    const success = await this.softDelete(id);
+
+    if (!success) return null;
+
+    return { success: true };
+  }
+
+  async findById(
+    id: number,
+  ): Promise<ReadCustomerResponseDto | null> {
+    const entity = await this.findActiveById(id);
+
+    if (!entity) return null;
+
+    return CustomerMapper.toDomain(entity);
+  }
+
+  async list(
+    filters: FilterListCustomersRequestDto,
+  ): Promise<ListCustomersResponseDto> {
+    const { data, total } = await this.paginateWithFilters({
+      filters,
+      filterConfig: this.filterConfig,
+      page: filters.page,
+      itemsPerPage: filters.itemsPerPage,
+      order: { id: 'ASC' },
+    });
+
+    return {
+      total,
+      customers: data.map(CustomerMapper.toDomain),
+    };
   }
 }
