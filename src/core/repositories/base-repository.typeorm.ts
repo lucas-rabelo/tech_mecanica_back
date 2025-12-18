@@ -135,6 +135,8 @@ export abstract class BaseRepositoryTypeOrm<
      */
     DynamicFilterBuilder.apply(qb, filters, filterConfig, alias);
 
+    console.log({filters});
+
     if (order) {
       Object.entries(order).forEach(([field, direction]) => {
         qb.addOrderBy(`${alias}.${field}`, direction as 'ASC' | 'DESC');
@@ -146,9 +148,9 @@ export abstract class BaseRepositoryTypeOrm<
     this.relations?.forEach((relation) => {
       qb.leftJoinAndSelect(`e.${relation}`, relation);
     });
-
+    
     const [data, total] = await qb.getManyAndCount();
-
+    
     return { data, total };
   }
 }
