@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { AuthModule, UsersModule } from '../admin';
 import { CustomersModule } from './customers';
+import { StockModule } from './stock';
 import { VehiclesModule } from './vehicles';
 
 @Module({
@@ -17,6 +18,7 @@ import { VehiclesModule } from './vehicles';
     forwardRef(() => UsersModule),
     CustomersModule,
     VehiclesModule,
+    StockModule,
   ],
 })
 export class ApplicationModule implements NestModule {
