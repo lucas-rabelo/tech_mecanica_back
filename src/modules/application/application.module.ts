@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { AuthModule, UsersModule } from '../admin';
 import { CustomersModule } from './customers';
+import { InventoryMovementModule } from './inventory-movement';
 import { StockModule } from './stock';
 import { VehiclesModule } from './vehicles';
 
@@ -19,6 +20,7 @@ import { VehiclesModule } from './vehicles';
     CustomersModule,
     VehiclesModule,
     StockModule,
+    InventoryMovementModule,
   ],
 })
 export class ApplicationModule implements NestModule {

@@ -5,16 +5,16 @@ import {
 } from '@/src/core';
 import {
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { AuditableEntity } from './auditable.entity';
 import { StockEntity } from './stock.entity';
 
 @Entity('inventory_movement')
-export class InventoryMovementEntity {
+export class InventoryMovementEntity extends AuditableEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -48,10 +48,4 @@ export class InventoryMovementEntity {
 
   // @Column('int')
   // orderServiceId: number;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Column({ nullable: true })
-  createdBy?: number;
 }
