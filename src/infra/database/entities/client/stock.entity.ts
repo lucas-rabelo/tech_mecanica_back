@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AuditableEntity } from "./auditable.entity";
+import { InventoryMovementEntity } from "./inventory-movement.entity";
 
 @Entity('stock_items')
 export class StockEntity extends AuditableEntity {
@@ -32,4 +33,7 @@ export class StockEntity extends AuditableEntity {
 
   @Column('boolean')
   isActive: boolean;
+
+  @OneToMany(() => InventoryMovementEntity, (inventoryMovement) => inventoryMovement.stockItems)
+  inventoryMovements: InventoryMovementEntity[];
 }
