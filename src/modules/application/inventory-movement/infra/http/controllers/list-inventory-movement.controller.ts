@@ -27,8 +27,11 @@ export class ListInventoryMovementController {
     private readonly listInventoryMovementUseCase: ListInventoryMovementUseCase,
   ) {}
 
-  @RequireAccess({ module: 'InventoryMovements', page: 'ListInventoryMovement' })
-  @ApiOperation({ summary: 'List of customers' })
+  @RequireAccess({
+    module: 'InventoryMovements',
+    page: 'ListInventoryMovement',
+  })
+  @ApiOperation({ summary: 'List of inventory movements' })
   @ApiOkResponse({ type: ListInventoryMovementsResponseDto })
   @Get()
   async handle(@Query() filters: FilterListInventoryMovementsRequestDto) {

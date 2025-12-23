@@ -6,12 +6,14 @@ import {
   CreateInventoryMovementUseCase,
   FindByIdInventoryMovementUseCase,
   ListInventoryMovementUseCase,
+  ListOptionsSelectUseCase
 } from './application/use-cases';
 
 import {
   CreateInventoryMovementController,
   FindByIdInventoryMovementController,
   ListInventoryMovementController,
+  ListOptionsInventoryMovementController
 } from './infra/http/controllers';
 
 import {
@@ -29,11 +31,13 @@ import {
     CreateInventoryMovementController,
     FindByIdInventoryMovementController,
     ListInventoryMovementController,
+    ListOptionsInventoryMovementController,
   ],
   providers: [
     CreateInventoryMovementUseCase,
     FindByIdInventoryMovementUseCase,
     ListInventoryMovementUseCase,
+    ListOptionsSelectUseCase,
     {
       provide: InventoryMovementsRepository,
       useClass: InventoryMovementRepositoryTypeOrm,
