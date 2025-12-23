@@ -28,7 +28,7 @@ export class ListStockItemController {
   ) {}
 
   @RequireAccess({ module: 'StockItems', page: 'ListStockItem' })
-  @ApiOperation({ summary: 'List of customers' })
+  @ApiOperation({ summary: 'List of stock items' })
   @ApiOkResponse({ type: ListStockItemsResponseDto })
   @Get()
   async handle(@Query() filters: FilterListStockItemsRequestDto) {

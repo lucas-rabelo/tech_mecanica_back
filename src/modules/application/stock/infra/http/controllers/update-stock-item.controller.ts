@@ -37,7 +37,7 @@ export class UpdateStockItemController {
   ) {}
 
   @RequireAccess({ module: 'StockItems', page: 'UpdateStockItem' })
-  @ApiOperation({ summary: 'Updating a customer' })
+  @ApiOperation({ summary: 'Updating a stock item' })
   @ApiOkResponse({ type: DeletedAndUpdatedDataResponseDto })
   @Put(':id')
   async handle(

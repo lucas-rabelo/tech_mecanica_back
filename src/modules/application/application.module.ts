@@ -9,6 +9,7 @@ import {
 import { AuthModule, UsersModule } from '../admin';
 import { CustomersModule } from './customers';
 import { InventoryMovementModule } from './inventory-movement';
+import { ServiceModule } from './services';
 import { StockModule } from './stock';
 import { VehiclesModule } from './vehicles';
 
@@ -21,6 +22,7 @@ import { VehiclesModule } from './vehicles';
     VehiclesModule,
     StockModule,
     InventoryMovementModule,
+    ServiceModule,
   ],
 })
 export class ApplicationModule implements NestModule {

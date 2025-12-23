@@ -35,7 +35,7 @@ export class DeleteVehicleController {
   ) {}
 
   @RequireAccess({ module: 'Vehicles', page: 'DeleteVehicle' })
-  @ApiOperation({ summary: 'Deleting a customer' })
+  @ApiOperation({ summary: 'Deleting a vehicle' })
   @ApiOkResponse({ type: DeletedAndUpdatedDataResponseDto })
   @Delete(':id')
   async handle(@Param('id', ParseIntPipe) id: number) {
