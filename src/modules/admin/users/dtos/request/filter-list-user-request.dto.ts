@@ -6,12 +6,6 @@ import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
 export class FilterListUserRequestDto extends ListItemsRequestDto {
   @ApiProperty({ required: false })
   @IsOptional()
-  @Type(() => Number)
-  @IsNumber()
-  id?: number;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
   @IsString()
   name?: string;
 

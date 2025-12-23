@@ -32,7 +32,7 @@ export class FindByIdVehicleController {
   ) {}
 
   @RequireAccess({ module: 'Vehicles', page: 'FindVehicle' })
-  @ApiOperation({ summary: 'Finding a customer by ID' })
+  @ApiOperation({ summary: 'Finding a vehicle by ID' })
   @ApiOkResponse({ type: ReadVehicleResponseDto })
   @Get(':id')
   async handle(@Param('id', ParseIntPipe) id: number) {

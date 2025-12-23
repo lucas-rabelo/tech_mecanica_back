@@ -37,7 +37,7 @@ export class UpdateVehicleController {
   ) {}
 
   @RequireAccess({ module: 'Vehicles', page: 'UpdateVehicle' })
-  @ApiOperation({ summary: 'Updating a customer' })
+  @ApiOperation({ summary: 'Updating a vehicle' })
   @ApiOkResponse({ type: DeletedAndUpdatedDataResponseDto })
   @Put(':id')
   async handle(

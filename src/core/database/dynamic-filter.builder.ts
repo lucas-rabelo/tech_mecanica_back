@@ -1,9 +1,7 @@
 import { SelectQueryBuilder, type ObjectLiteral } from 'typeorm';
-import {
-  DynamicFilterInput,
-  DynamicFilterMap,
-} from './dynamic-filter.types';
+import { isValidFilterValue } from '../utils';
 import { DynamicOperators } from './dynamic-filter.operators';
+import { DynamicFilterInput, DynamicFilterMap } from './dynamic-filter.types';
 
 export class DynamicFilterBuilder {
   static apply<TEntity extends ObjectLiteral>(
@@ -15,13 +13,7 @@ export class DynamicFilterBuilder {
     if (!filters) return;
 
     Object.entries(filters).forEach(([key, value]) => {
-      if (
-        value === undefined ||
-        value === null ||
-        value === ''
-      ) {
-        return;
-      }
+      if (!isValidFilterValue(value)) return;
 
       const filterConfig = config[key];
       if (!filterConfig) return; // whitelist
@@ -29,18 +21,13 @@ export class DynamicFilterBuilder {
       const { field, operator, transform } = filterConfig;
 
       const finalValue = transform ? transform(value) : value;
-      const param = `${key}_${Date.now()}`;
+
+      const param = `${key}`;
 
       const op = DynamicOperators[operator];
       if (!op) return;
 
-      op(
-        qb,
-        alias,
-        field as string,
-        param,
-        finalValue,
-      );
+      op(qb, alias, field as string, param, finalValue);
     });
   }
 }
