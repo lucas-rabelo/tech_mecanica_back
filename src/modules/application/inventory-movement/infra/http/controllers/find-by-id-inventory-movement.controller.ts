@@ -31,8 +31,11 @@ export class FindByIdInventoryMovementController {
     private readonly findByIdInventoryMovementUseCase: FindByIdInventoryMovementUseCase,
   ) {}
 
-  @RequireAccess({ module: 'InventoryMovements', page: 'FindInventoryMovement' })
-  @ApiOperation({ summary: 'Finding a customer by ID' })
+  @RequireAccess({
+    module: 'InventoryMovements',
+    page: 'FindInventoryMovement',
+  })
+  @ApiOperation({ summary: 'Finding a inventory movement by ID' })
   @ApiOkResponse({ type: ReadInventoryMovementResponseDto })
   @Get(':id')
   async handle(@Param('id', ParseIntPipe) id: number) {

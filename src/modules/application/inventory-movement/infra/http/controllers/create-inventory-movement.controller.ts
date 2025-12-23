@@ -27,8 +27,11 @@ export class CreateInventoryMovementController {
     private readonly createInventoryMovementUseCase: CreateInventoryMovementUseCase,
   ) {}
 
-  @RequireAccess({ module: 'InventoryMovements', page: 'CreateInventoryMovement' })
-  @ApiOperation({ summary: 'Creating a new customer' })
+  @RequireAccess({
+    module: 'InventoryMovements',
+    page: 'CreateInventoryMovement',
+  })
+  @ApiOperation({ summary: 'Creating a new inventory movement' })
   @ApiOkResponse({ type: ReadInventoryMovementResponseDto })
   @Post()
   async handle(@Body() body: CreateInventoryMovementRequestDto) {
