@@ -28,7 +28,7 @@ export class CreateStockItemController {
   ) {}
 
   @RequireAccess({ module: 'StockItems', page: 'CreateStockItem' })
-  @ApiOperation({ summary: 'Creating a new customer' })
+  @ApiOperation({ summary: 'Creating a new stock item' })
   @ApiOkResponse({ type: ReadStockItemResponseDto })
   @Post()
   async handle(@Body() body: CreateStockItemRequestDto) {

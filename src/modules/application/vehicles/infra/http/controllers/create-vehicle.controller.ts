@@ -28,7 +28,7 @@ export class CreateVehicleController {
   ) {}
 
   @RequireAccess({ module: 'Vehicles', page: 'CreateVehicle' })
-  @ApiOperation({ summary: 'Creating a new customer' })
+  @ApiOperation({ summary: 'Creating a new vehicle' })
   @ApiOkResponse({ type: ReadVehicleResponseDto })
   @Post()
   async handle(@Body() body: CreateVehicleRequestDto) {

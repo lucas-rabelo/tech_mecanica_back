@@ -32,7 +32,7 @@ export class FindByIdStockItemController {
   ) {}
 
   @RequireAccess({ module: 'StockItems', page: 'FindStockItem' })
-  @ApiOperation({ summary: 'Finding a customer by ID' })
+  @ApiOperation({ summary: 'Finding a stock item by ID' })
   @ApiOkResponse({ type: ReadStockItemResponseDto })
   @Get(':id')
   async handle(@Param('id', ParseIntPipe) id: number) {

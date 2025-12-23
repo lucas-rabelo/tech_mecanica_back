@@ -28,7 +28,7 @@ export class ListVehicleController {
   ) {}
 
   @RequireAccess({ module: 'Vehicles', page: 'ListVehicle' })
-  @ApiOperation({ summary: 'List of customers' })
+  @ApiOperation({ summary: 'List of vehicles' })
   @ApiOkResponse({ type: ListVehiclesResponseDto })
   @Get()
   async handle(@Query() filters: FilterListVehiclesRequestDto) {

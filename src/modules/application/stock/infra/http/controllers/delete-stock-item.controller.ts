@@ -35,7 +35,7 @@ export class DeleteStockItemController {
   ) {}
 
   @RequireAccess({ module: 'StockItems', page: 'DeleteStockItem' })
-  @ApiOperation({ summary: 'Deleting a customer' })
+  @ApiOperation({ summary: 'Deleting a stock item' })
   @ApiOkResponse({ type: DeletedAndUpdatedDataResponseDto })
   @Delete(':id')
   async handle(@Param('id', ParseIntPipe) id: number) {
