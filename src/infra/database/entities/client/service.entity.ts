@@ -1,9 +1,11 @@
 import {
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { AuditableEntity } from './auditable.entity';
+import { ServiceMaterialsEntity } from './service-material.entity';
 
 @Entity('services')
 export class ServicesEntity extends AuditableEntity {
@@ -18,4 +20,7 @@ export class ServicesEntity extends AuditableEntity {
 
   @Column('decimal', { precision: 10, scale: 2, nullable: true })
   price: number | null;
+
+  @OneToMany(() => ServiceMaterialsEntity, (material) => material.service)
+  materials: ServiceMaterialsEntity[];
 }
