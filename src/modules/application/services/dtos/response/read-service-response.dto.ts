@@ -17,7 +17,7 @@ export class ReadServiceResponseDto {
   @ApiProperty({ nullable: true })
   @IsNumber({ maxDecimalPlaces: 2 })
   @IsOptional()
-  price?: number;
+  price?: number | null;
 
   @ApiProperty({ example: '2025-11-12T16:25:00.000Z' })
   @IsDateString()
