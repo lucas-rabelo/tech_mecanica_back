@@ -1,11 +1,16 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsStrongPassword } from "class-validator";
+import { IsEmail, IsNumber, IsOptional, IsStrongPassword } from "class-validator";
 
 export class LoginAuthRequestDto {
   @ApiProperty()
   @IsEmail()
   email: string;
-  
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsNumber()
+  tenantId?: number;
+
   @ApiProperty()
   @IsStrongPassword({
     minLength: 8,

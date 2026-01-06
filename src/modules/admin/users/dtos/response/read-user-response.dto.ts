@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDateString, IsEmail, IsNumber, IsString } from "class-validator";
 import { ReadUserStatusResponseDto } from "../../../user-status";
+import { ReadUserTenantResponseDto } from "../../../user-tenants";
 
 export class ReadUserResponseDto {
   @ApiProperty()
@@ -29,6 +30,9 @@ export class ReadUserResponseDto {
 
   @ApiProperty({ type: ReadUserStatusResponseDto })
   userStatus: ReadUserStatusResponseDto;
+
+  @ApiProperty({ type: ReadUserTenantResponseDto, isArray: true })
+  userTenants: ReadUserTenantResponseDto[];
 
   @ApiProperty()
   @IsDateString()
