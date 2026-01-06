@@ -1,4 +1,4 @@
 export * from './application';
 export * from './dtos';
 export * from './infra';
-export * from './user-status.module';
+export * from './user-tenants.module';
