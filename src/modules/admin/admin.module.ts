@@ -9,6 +9,7 @@ import { PermissionsModule } from './permissions';
 import { TenantStatusModule } from './tenant-status';
 import { TenantsModule } from './tenants';
 import { UserStatusModule } from './user-status';
+import { UserTenantsModule } from './user-tenants';
 import { UsersModule } from './users';
 
 const modules = [
@@ -21,6 +22,7 @@ const modules = [
   TenantsModule,
   TenantStatusModule,
   UserStatusModule,
+  UserTenantsModule,
   UsersModule,
 ];
 

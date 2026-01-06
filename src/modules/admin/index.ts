@@ -8,4 +8,5 @@ export * from './permissions';
 export * from './tenant-status';
 export * from './tenants';
 export * from './user-status';
+export * from './user-tenants';
 export * from './users';
