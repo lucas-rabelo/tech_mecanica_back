@@ -8,25 +8,6 @@ declare namespace Express {
       birthDate: Date;
       phone: string;
       document: string;
-      tenant: {
-        id: number;
-        name: string;
-        tenantStatus: {
-          id: number;
-          name: string;
-          createdAt: string;
-          updatedAt: string | null;
-        } | null;
-        subdomain: string;
-        createdAt: string;
-        updatedAt: string | null;
-      } | null;
-      permission: {
-        id: number;
-        name: string;
-        createdAt: string;
-        updatedAt: string | null;
-      } | null;
       userStatus: {
         id: number;
         name: string;

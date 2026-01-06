@@ -34,31 +34,6 @@ export class UsersMapper {
       birthDate: raw.birthDate,
       phone: raw.phone,
       document: raw.document,
-      tenant: raw.tenant ? {
-        id: raw.tenant.id,
-        name: raw.tenant.name,
-        subdomain: raw.tenant.subdomain,
-        tenantStatus: raw.tenant.tenantStatus ? {
-          id: raw.tenant.tenantStatus.id,
-          name: raw.tenant.tenantStatus.name,
-          createdAt: raw.tenant.tenantStatus.createdAt.toISOString(),
-          updatedAt: raw.tenant.tenantStatus.updatedAt
-            ? raw.tenant.tenantStatus.updatedAt.toISOString()
-            : null,
-        } : null,
-        createdAt: raw.tenant.createdAt.toISOString(),
-        updatedAt: raw.tenant.updatedAt
-          ? raw.tenant.updatedAt.toISOString()
-          : null,
-      } : null,
-      permission: raw.permission ? {
-        id: raw.permission.id,
-        name: raw.permission?.name,
-        createdAt: raw.permission?.createdAt.toISOString(),
-        updatedAt: raw.permission?.updatedAt
-          ? raw.permission?.updatedAt.toISOString()
-          : null,
-      } : null,
       userStatus: {
         id: raw.userStatus.id,
         name: raw.userStatus.name,

@@ -8,8 +8,8 @@ export const MasterDatabaseDataSource = new DataSource({
   username: process.env.MASTER_DB_USER,
   password: String(process.env.MASTER_DB_PASS),
   database: process.env.MASTER_DB_NAME,
-  entities: ['dist/src/infra/database/entities/**/*.entity.{ts,js}'],
-  migrations: ['dist/src/infra/database/migrations/**/*.{ts,js}'],
+  entities: ['dist/src/infra/database/entities/*.entity.{ts,js}'],
+  migrations: ['dist/src/infra/database/migrations/*.{ts,js}'],
   migrationsTableName: 'typeorm_migrations',
   synchronize: false,
 });

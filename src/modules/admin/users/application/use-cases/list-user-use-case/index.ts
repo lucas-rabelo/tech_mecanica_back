@@ -9,13 +9,12 @@ export class ListUserUseCase {
 
   async execute({
     isAdmin,
-    tenantId,
     request,
   }: IListUserUseCaseRequest): Promise<ListUserResponseDto> {
     try {
       let filters: FilterListUserRequestDto = request;
       if(!isAdmin) {
-        filters = { ...request, tenantId };
+        filters = { ...request };
       }
       
       const usersFounded = await this.usersRepository.list(filters);

@@ -28,17 +28,5 @@ export class FilterListUserRequestDto extends ListItemsRequestDto {
   @IsOptional()
   @Type(() => Number)
   @IsNumber()
-  tenantId?: number;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @Type(() => Number)
-  @IsNumber()
-  permissionId?: number;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @Type(() => Number)
-  @IsNumber()
   userStatusId?: number;
 }

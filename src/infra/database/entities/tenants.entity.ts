@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { TenantStatusEntity } from './tenant-status.entity';
 import { UsersEntity } from './users.entity';
+import { UserTenantsEntity } from './user-tenants.entity';
 
 @Entity('tenants')
 export class TenantsEntity {
@@ -37,6 +38,6 @@ export class TenantsEntity {
   @Column({ type: 'timestamp', nullable: true, default: null })
   deletedAt: Date | null;
 
-  @OneToMany(() => UsersEntity, (user) => user.tenant)
-  users: UsersEntity[];
+  @OneToMany(() => UserTenantsEntity, (userTenant) => userTenant.tenant)
+  userTenants: UserTenantsEntity[];
 }

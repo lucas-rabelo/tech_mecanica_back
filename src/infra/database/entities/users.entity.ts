@@ -4,11 +4,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { PermissionsEntity } from './permissions.entity';
-import { TenantsEntity } from './tenants.entity';
 import { UserStatusEntity } from './user-status.entity';
+import { UserTenantsEntity } from './user-tenants.entity';
 
 @Entity('users')
 export class UsersEntity {
@@ -33,22 +33,6 @@ export class UsersEntity {
   @Column('varchar', { length: 20, unique: true })
   document: string;
 
-  @ManyToOne(() => TenantsEntity, (tenant) => tenant.id, { nullable: true })
-  @JoinColumn({ name: 'tenantId' })
-  tenant?: TenantsEntity;
-
-  @Column({ nullable: true })
-  tenantId?: number;
-
-  @ManyToOne(() => PermissionsEntity, (permission) => permission.id, {
-    nullable: true,
-  })
-  @JoinColumn({ name: 'permissionId' })
-  permission: PermissionsEntity;
-
-  @Column({ nullable: true })
-  permissionId?: number;
-
   @ManyToOne(() => UserStatusEntity, (userStatus) => userStatus.id)
   @JoinColumn({ name: 'userStatusId' })
   userStatus: UserStatusEntity;
@@ -64,4 +48,7 @@ export class UsersEntity {
 
   @Column({ type: 'timestamp', nullable: true, default: null })
   deletedAt: Date | null;
+
+  @OneToMany(() => UserTenantsEntity, (userTenant) => userTenant.user)
+  userTenants: UserTenantsEntity[];
 }

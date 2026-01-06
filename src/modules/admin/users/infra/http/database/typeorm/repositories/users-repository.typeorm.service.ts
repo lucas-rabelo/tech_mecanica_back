@@ -37,8 +37,6 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
     const userWithRelations = await this.usersRepository.findOne({
       where: { id: userSaved.id },
       relations: {
-        tenant: true,
-        permission: true,
         userStatus: true,
       },
     });
@@ -50,16 +48,11 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
 
   async delete({
     id,
-    tenantId,
   }: DeleteUserRequestDto): Promise<DeletedAndUpdatedDataResponseDto> {
     let where: FindOptionsWhere<UsersEntity> = {
       id,
       deletedAt: undefined,
     };
-
-    if (tenantId) {
-      where = { tenantId };
-    }
 
     const userDeleted = this.usersRepository.update(where, {
       deletedAt: new Date(),
@@ -74,15 +67,10 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
 
   async findById({
     id,
-    tenantId,
   }: FindByIdUserRequestDto): Promise<ReadUserResponseDto | null> {
     let where: FindOptionsWhere<UsersEntity> = {
       deletedAt: undefined,
     };
-
-    if (tenantId) {
-      where = { tenantId };
-    }
 
     const userFounded = await this.usersRepository.findOne({
       where: {
@@ -90,8 +78,6 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
         id,
       },
       relations: {
-        tenant: true,
-        permission: true,
         userStatus: true,
       },
     });
@@ -110,8 +96,6 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
         deletedAt: undefined,
       },
       relations: {
-        tenant: true,
-        permission: true,
         userStatus: true,
       },
     });
@@ -137,8 +121,6 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
         deletedAt: undefined,
       },
       relations: {
-        tenant: true,
-        permission: true,
         userStatus: true,
       },
     });
@@ -185,14 +167,6 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
       where.document = Like(`%${filters.document}%`);
     }
 
-    if (filters.tenantId) {
-      where.tenantId = Equal(filters.tenantId);
-    }
-
-    if (filters.permissionId) {
-      where.permissionId = Equal(filters.permissionId);
-    }
-
     if (filters.userStatusId) {
       where.userStatusId = Equal(filters.userStatusId);
     }
@@ -203,8 +177,6 @@ export class UsersRepositoryTypeOrm implements UsersRepository {
       take,
       order,
       relations: {
-        tenant: true,
-        permission: true,
         userStatus: true,
       },
     });
