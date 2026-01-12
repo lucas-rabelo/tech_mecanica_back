@@ -1,3 +1,4 @@
+import { IdentifyAuthScope, type IdentifyAuthScopeEnum } from '@/src/core';
 import {
   Column,
   CreateDateColumn,
@@ -39,6 +40,9 @@ export class UsersEntity {
 
   @Column()
   userStatusId: number;
+
+  @Column('enum', { enum: IdentifyAuthScope, default: IdentifyAuthScope.USER })
+  typeUser: IdentifyAuthScopeEnum;
 
   @CreateDateColumn()
   createdAt: Date;

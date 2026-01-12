@@ -25,3 +25,20 @@ export enum InventoryMovementReferenceTypeEnum {
   INVENTORY = "INVENTORY",
   PURCHASE = "PURCHASE",
 }
+
+export const IdentifyAuthNextStep = {
+  PASSWORD: "PASSWORD",
+  SELECT_TENANT: "SELECT_TENANT",
+} as const;
+
+export type IdentifyAuthNextStepEnum =
+  typeof IdentifyAuthNextStep[keyof typeof IdentifyAuthNextStep];
+
+export const IdentifyAuthScope = {
+  ADMIN: "ADMIN",
+  SUPPORT: "SUPPORT",
+  USER: "USER",
+} as const;
+
+export type IdentifyAuthScopeEnum =
+  typeof IdentifyAuthScope[keyof typeof IdentifyAuthScope];
