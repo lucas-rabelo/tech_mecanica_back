@@ -1,5 +1,11 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNumber, IsOptional, IsStrongPassword } from "class-validator";
+import { IdentifyAuthScope, type IdentifyAuthScopeEnum } from '@/src/core';
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsEmail,
+  IsNumber,
+  IsOptional,
+  IsStrongPassword,
+} from 'class-validator';
 
 export class LoginAuthRequestDto {
   @ApiProperty()
@@ -20,4 +26,7 @@ export class LoginAuthRequestDto {
     minNumbers: 1,
   })
   password: string;
+
+  @ApiProperty({ enum: IdentifyAuthScope })
+  scope: IdentifyAuthScopeEnum;
 }

@@ -2,7 +2,7 @@ import { ApplicationException } from '@/src/core';
 import { ReadUserResponseDto } from '@/src/modules/admin/users';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { SendTokenResponseDto } from '../../dtos';
+import { SendTokenResponseDto, type CreateTokenRequestDto } from '../../dtos';
 import { ValidateTokenJwtService } from './validate-token-jwt.service';
 
 @Injectable()
@@ -12,16 +12,12 @@ export class CreateTokenJwtService {
     private readonly validateTokenJwtService: ValidateTokenJwtService,
   ) {}
 
-  execute(user: ReadUserResponseDto): SendTokenResponseDto {
+  execute(request: CreateTokenRequestDto): SendTokenResponseDto {
     const token = this.jwtService.sign(
-      {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      },
+      request,
       {
         expiresIn: '7 days',
-        subject: String(user.id),
+        subject: String(request.id),
       },
     );
 

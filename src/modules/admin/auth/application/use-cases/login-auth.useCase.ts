@@ -1,7 +1,7 @@
 import { ApplicationException } from '@/src/core';
 import { UsersRepository } from '../../../users/infra/http/database/users.repository';
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { LoginAuthRequestDto, SendTokenResponseDto } from '../../dtos';
+import { LoginAuthRequestDto, SendTokenResponseDto, type CreateTokenRequestDto } from '../../dtos';
 import { ComparePasswordService, CreateTokenJwtService } from '../services';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class LoginAuthUseCase {
   ) {}
 
   async execute(request: LoginAuthRequestDto): Promise<SendTokenResponseDto> {
-    const { email, password } = request;
+    const { email, tenantId, password, scope } = request;
 
     const userFounded =
       await this.usersRepository.findByEmail(email);
@@ -37,6 +37,15 @@ export class LoginAuthUseCase {
       );
     }
 
-    return this.createTokenJwtService.execute(userFounded);
+    const createTokenRequest: CreateTokenRequestDto = {
+      id: userFounded.id,
+      name: userFounded.name,
+      email: userFounded.email,
+      document: userFounded.document,
+      tenantId,
+      scope,
+    };
+
+    return this.createTokenJwtService.execute(createTokenRequest);
   }
 }
