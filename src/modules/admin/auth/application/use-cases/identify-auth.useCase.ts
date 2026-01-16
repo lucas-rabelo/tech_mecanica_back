@@ -1,10 +1,6 @@
-import {
-  ADMIN_USER_ID,
-  IdentifyAuthNextStep,
-  IdentifyAuthScope,
-} from '@/src/core';
+import { IdentifyAuthNextStep, IdentifyAuthScope } from '@/src/core';
 import { Injectable } from '@nestjs/common';
-import type { UsersRepository } from '../../../users';
+import { UsersRepository } from '../../../users';
 import type {
   IdentifyAuthRequestDto,
   IdentifyAuthResponseDto,
@@ -18,7 +14,8 @@ export class IdentifyAuthUseCase {
   async execute({
     email,
   }: IdentifyAuthRequestDto): Promise<IdentifyAuthResponseDto> {
-    let identifyObj: IdentifyAuthResponseDto = validationOfResponse[IdentifyAuthNextStep.PASSWORD];
+    let identifyObj: IdentifyAuthResponseDto =
+      validationOfResponse[IdentifyAuthNextStep.PASSWORD];
     const userFounded = await this.usersRepository.findByEmail(email);
 
     if (!userFounded) {
@@ -27,35 +24,63 @@ export class IdentifyAuthUseCase {
 
     const hasOneTenant = userFounded.userTenants.length == 1;
     const hasMoreThanOneTenant = userFounded.userTenants.length > 1;
-    const isAdminUser = userFounded.userTenants.some(
-      (userTenant) => userTenant.permission.id === ADMIN_USER_ID,
-    );
 
-    if (hasOneTenant) {
-      identifyObj = {
-        ...validationOfResponse[IdentifyAuthNextStep.PASSWORD],
-        tenants: userFounded.userTenants.map((userTenant) => ({
+    const isAdminUser = userFounded.typeUser === IdentifyAuthScope.ADMIN;
+    const isSupportUser = userFounded.typeUser === IdentifyAuthScope.SUPPORT;
+    const isUser = userFounded.typeUser === IdentifyAuthScope.USER;
+
+    const tenants = hasMoreThanOneTenant
+      ? userFounded.userTenants.map((userTenant) => ({
           id: userTenant.tenant.id,
           name: userTenant.tenant.name,
-        })),
+        }))
+      : [];
+
+    if (hasOneTenant && isUser) {
+      identifyObj = {
+        ...validationOfResponse[IdentifyAuthNextStep.PASSWORD],
+        tenants,
+        scope: IdentifyAuthScope.USER,
       };
     }
 
-    if (hasMoreThanOneTenant && isAdminUser) {
+    if (hasOneTenant && isSupportUser) {
       identifyObj = {
         ...validationOfResponse[IdentifyAuthNextStep.PASSWORD],
-        tenants: userFounded.userTenants.map((userTenant) => ({
-          id: userTenant.tenant.id,
-          name: userTenant.tenant.name,
-        })),
+        tenants,
+        scope: IdentifyAuthScope.SUPPORT,
+      };
+    }
+
+    if (hasOneTenant && isAdminUser) {
+      identifyObj = {
+        ...validationOfResponse[IdentifyAuthNextStep.PASSWORD],
+        tenants,
         scope: IdentifyAuthScope.ADMIN,
       };
     }
 
     if (hasMoreThanOneTenant && isAdminUser) {
       identifyObj = {
-        ...validationOfResponse[IdentifyAuthNextStep.PASSWORD],
+        ...validationOfResponse[IdentifyAuthNextStep.SELECT_TENANT],
+        tenants,
         scope: IdentifyAuthScope.ADMIN,
+      };
+    }
+
+    if (hasMoreThanOneTenant && isSupportUser) {
+      identifyObj = {
+        ...validationOfResponse[IdentifyAuthNextStep.SELECT_TENANT],
+        tenants,
+        scope: IdentifyAuthScope.SUPPORT,
+      };
+    }
+    
+    if (hasMoreThanOneTenant && isSupportUser) {
+      identifyObj = {
+        ...validationOfResponse[IdentifyAuthNextStep.SELECT_TENANT],
+        tenants,
+        scope: IdentifyAuthScope.SUPPORT,
       };
     }
 

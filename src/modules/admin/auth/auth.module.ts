@@ -13,6 +13,7 @@ import {
   LoginAuthUseCase,
   RegisterAuthUseCase,
   ResetPasswordAuthUseCase,
+  IdentifyAuthUseCase
 } from './application/use-cases';
 
 import { DatabaseModule } from '@/src/infra';
@@ -22,6 +23,7 @@ import {
   LoginAuthController,
   RegisterAuthController,
   ResetPasswordAuthController,
+  IdentifyAuthController
 } from './infra';
 
 @Module({
@@ -31,6 +33,7 @@ import {
     LoginAuthController,
     RegisterAuthController,
     ResetPasswordAuthController,
+    IdentifyAuthController,
   ],
   providers: [
     ComparePasswordService,
@@ -41,6 +44,7 @@ import {
     LoginAuthUseCase,
     RegisterAuthUseCase,
     ResetPasswordAuthUseCase,
+    IdentifyAuthUseCase,
   ],
   exports: [
     ComparePasswordService,
