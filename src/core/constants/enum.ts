@@ -1,44 +1,38 @@
-export enum CustomerTypeEnum {
-  PF = "PF",
-  PJ = "PJ",
-};
+export const CustomerType = {
+  PF: "PF",
+  PJ: "PJ",
+} as const;
 
-export enum InventoryMovementTypeEnum {
-  ENTRY = "ENTRY",
-  EXIT = "EXIT",
-  ADJUSTMENT = "ADJUSTMENT",
-  TRANSFER = "TRANSFER",
-}
+export const InventoryMovementType = {
+  ENTRY: "ENTRY",
+  EXIT: "EXIT",
+  ADJUSTMENT: "ADJUSTMENT",
+  TRANSFER: "TRANSFER",
+} as const;
 
-export enum InventoryMovementReasonEnum {
-  PURCHASE = "PURCHASE",
-  SALE = "SALE",
-  SERVICE = "SERVICE",
-  LOSS = "LOSS",
-  INVENTORY = "INVENTORY",
-  RETURN = "RETURN"
-}
+export const InventoryMovementReason = {
+  PURCHASE: "PURCHASE",
+  SALE: "SALE",
+  SERVICE: "SERVICE",
+  LOSS: "LOSS",
+  INVENTORY: "INVENTORY",
+  RETURN: "RETURN"
+} as const;
 
-export enum InventoryMovementReferenceTypeEnum {
-  OS = "OS",
-  MANUAL = "MANUAL",
-  INVENTORY = "INVENTORY",
-  PURCHASE = "PURCHASE",
-}
+export const InventoryMovementReferenceType = {
+  OS: "OS",
+  MANUAL: "MANUAL",
+  INVENTORY: "INVENTORY",
+  PURCHASE: "PURCHASE",
+} as const;
 
 export const IdentifyAuthNextStep = {
   PASSWORD: "PASSWORD",
   SELECT_TENANT: "SELECT_TENANT",
 } as const;
 
-export type IdentifyAuthNextStepEnum =
-  typeof IdentifyAuthNextStep[keyof typeof IdentifyAuthNextStep];
-
 export const IdentifyAuthScope = {
   ADMIN: "ADMIN",
   SUPPORT: "SUPPORT",
   USER: "USER",
 } as const;
-
-export type IdentifyAuthScopeEnum =
-  typeof IdentifyAuthScope[keyof typeof IdentifyAuthScope];

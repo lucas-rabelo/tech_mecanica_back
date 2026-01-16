@@ -1,7 +1,5 @@
-import {
-  DeletedAndUpdatedDataResponseDto,
-  UserTenantsEntity,
-} from '@/src/infra';
+import { DeletedAndUpdatedDataResponseDto } from '@/src/infra';
+import { UserTenantsEntity } from '@/src/infra/database/entities/user-tenants.entity';
 import {
   CreateUserTenantRequestDto,
   FilterListUserTenantRequestDto,
@@ -10,7 +8,7 @@ import {
 } from '@/src/modules/admin/user-tenants/dtos';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Equal, FindOptionsOrder, FindOptionsWhere, Like, Repository } from 'typeorm';
+import { Equal, FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
 import { UserTenantsRepository } from '../../user-tenant.repository';
 import { UserTenantsMapper } from '../mappers';
 

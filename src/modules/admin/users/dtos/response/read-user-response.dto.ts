@@ -1,7 +1,31 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsDateString, IsEmail, IsNumber, IsString } from "class-validator";
-import { ReadUserStatusResponseDto } from "../../../user-status";
-import { ReadUserTenantResponseDto } from "../../../user-tenants";
+import { IdentifyAuthScope, type IdentifyAuthScopeEnum } from '@/src/core';
+import { OmitType } from '@nestjs/mapped-types';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsDateString, IsEmail, IsNumber, IsString } from 'class-validator';
+import { ReadUserStatusResponseDto } from '../../../user-status';
+import { ReadUserTenantResponseDto } from '../../../user-tenants';
+
+class TenantAndPermissionResponseDto {
+  @ApiProperty()
+  @IsNumber()
+  id: number;
+
+  @ApiProperty()
+  @IsString()
+  name: string;
+}
+
+class UserTenantResponseDto {
+  @ApiProperty({ example: 1 })
+  @IsNumber()
+  id: number;
+
+  @ApiProperty({ type: TenantAndPermissionResponseDto })
+  permission: TenantAndPermissionResponseDto;
+
+  @ApiProperty({ type: TenantAndPermissionResponseDto })
+  tenant: TenantAndPermissionResponseDto;
+}
 
 export class ReadUserResponseDto {
   @ApiProperty()
@@ -28,11 +52,14 @@ export class ReadUserResponseDto {
   @IsString()
   document: string;
 
+  @ApiProperty({ enum: IdentifyAuthScope })
+  typeUser: IdentifyAuthScopeEnum;
+
   @ApiProperty({ type: ReadUserStatusResponseDto })
   userStatus: ReadUserStatusResponseDto;
 
-  @ApiProperty({ type: ReadUserTenantResponseDto, isArray: true })
-  userTenants: ReadUserTenantResponseDto[];
+  @ApiProperty({ type: [UserTenantResponseDto] })
+  userTenants: UserTenantResponseDto[];
 
   @ApiProperty()
   @IsDateString()

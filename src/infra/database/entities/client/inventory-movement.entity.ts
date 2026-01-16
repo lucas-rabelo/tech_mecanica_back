@@ -1,7 +1,10 @@
 import {
-  InventoryMovementReasonEnum,
-  InventoryMovementReferenceTypeEnum,
-  InventoryMovementTypeEnum,
+  InventoryMovementReason,
+  type InventoryMovementReasonEnum,
+  InventoryMovementReferenceType,
+  type InventoryMovementReferenceTypeEnum,
+  InventoryMovementType,
+  type InventoryMovementTypeEnum,
 } from '@/src/core';
 import {
   Column,
@@ -25,7 +28,7 @@ export class InventoryMovementEntity extends AuditableEntity {
   @Column()
   stockItemId: number;
 
-  @Column('enum', { enum: InventoryMovementTypeEnum })
+  @Column('enum', { enum: InventoryMovementType })
   type: InventoryMovementTypeEnum;
 
   @Column('int')
@@ -34,13 +37,13 @@ export class InventoryMovementEntity extends AuditableEntity {
   @Column('int')
   balanceAfter: number;
 
-  @Column('enum', { enum: InventoryMovementReasonEnum })
+  @Column('enum', { enum: InventoryMovementReason })
   reason: InventoryMovementReasonEnum;
 
   @Column('text')
   description: string;
 
-  @Column('enum', { enum: InventoryMovementReferenceTypeEnum })
+  @Column('enum', { enum: InventoryMovementReferenceType })
   referenceType: InventoryMovementReferenceTypeEnum;
 
   // @ManyToOne(() => OrderServiceEntity, (orderService) => oderService.inventoryMovements)

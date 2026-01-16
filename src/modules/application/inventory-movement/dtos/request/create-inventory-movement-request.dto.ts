@@ -1,7 +1,10 @@
 import {
-  InventoryMovementReasonEnum,
-  InventoryMovementReferenceTypeEnum,
-  InventoryMovementTypeEnum,
+  InventoryMovementReason,
+  InventoryMovementReferenceType,
+  InventoryMovementType,
+  type InventoryMovementReasonEnum,
+  type InventoryMovementReferenceTypeEnum,
+  type InventoryMovementTypeEnum,
 } from '@/src/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNumber, IsString } from 'class-validator';
@@ -16,7 +19,7 @@ export class CreateInventoryMovementRequestDto {
   stockItemId: number;
 
   @ApiProperty()
-  @IsEnum(InventoryMovementTypeEnum)
+  @IsEnum(InventoryMovementType)
   type: InventoryMovementTypeEnum;
 
   @ApiProperty()
@@ -28,7 +31,7 @@ export class CreateInventoryMovementRequestDto {
   balanceAfter: number;
 
   @ApiProperty()
-  @IsEnum(InventoryMovementReasonEnum)
+  @IsEnum(InventoryMovementReason)
   reason: InventoryMovementReasonEnum;
 
   @ApiProperty()
@@ -36,6 +39,6 @@ export class CreateInventoryMovementRequestDto {
   description: string;
 
   @ApiProperty()
-  @IsEnum(InventoryMovementReferenceTypeEnum)
+  @IsEnum(InventoryMovementReferenceType)
   referenceType: InventoryMovementReferenceTypeEnum;
 }

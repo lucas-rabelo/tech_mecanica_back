@@ -1,4 +1,4 @@
-import { CustomerTypeEnum } from '@/src/core';
+import { CustomerType, type CustomerTypeEnum } from '@/src/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
 
@@ -20,7 +20,7 @@ export class CreateCustomerRequestDto {
   document: string;
   
   @ApiProperty()
-  @IsEnum(CustomerTypeEnum)
+  @IsEnum(CustomerType)
   customerType: CustomerTypeEnum;
   
   @ApiProperty()

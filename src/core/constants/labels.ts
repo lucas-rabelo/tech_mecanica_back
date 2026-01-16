@@ -1,32 +1,37 @@
-import {
+import type {
   InventoryMovementReasonEnum,
   InventoryMovementReferenceTypeEnum,
   InventoryMovementTypeEnum,
+} from '../types';
+import {
+  InventoryMovementReason,
+  InventoryMovementReferenceType,
+  InventoryMovementType,
 } from './enum';
 
 export const movementTypeLabels: Record<InventoryMovementTypeEnum, string> = {
-  [InventoryMovementTypeEnum.ENTRY]: 'Entry',
-  [InventoryMovementTypeEnum.EXIT]: 'Exit',
-  [InventoryMovementTypeEnum.ADJUSTMENT]: 'Adjustment',
-  [InventoryMovementTypeEnum.TRANSFER]: 'Transfer',
+  [InventoryMovementType.ENTRY]: 'Entry',
+  [InventoryMovementType.EXIT]: 'Exit',
+  [InventoryMovementType.ADJUSTMENT]: 'Adjustment',
+  [InventoryMovementType.TRANSFER]: 'Transfer',
 };
 
 export const movementReasonLabels: Record<InventoryMovementReasonEnum, string> =
   {
-    [InventoryMovementReasonEnum.INVENTORY]: 'Inventory',
-    [InventoryMovementReasonEnum.PURCHASE]: 'Purchase',
-    [InventoryMovementReasonEnum.SALE]: 'Sale',
-    [InventoryMovementReasonEnum.SERVICE]: 'Service',
-    [InventoryMovementReasonEnum.LOSS]: 'Loss',
-    [InventoryMovementReasonEnum.RETURN]: 'Return',
+    [InventoryMovementReason.INVENTORY]: 'Inventory',
+    [InventoryMovementReason.PURCHASE]: 'Purchase',
+    [InventoryMovementReason.SALE]: 'Sale',
+    [InventoryMovementReason.SERVICE]: 'Service',
+    [InventoryMovementReason.LOSS]: 'Loss',
+    [InventoryMovementReason.RETURN]: 'Return',
   };
 
 export const movementReferenceTypeLabels: Record<
   InventoryMovementReferenceTypeEnum,
   string
 > = {
-  [InventoryMovementReferenceTypeEnum.INVENTORY]: 'Inventory',
-  [InventoryMovementReferenceTypeEnum.OS]: 'OS',
-  [InventoryMovementReferenceTypeEnum.MANUAL]: 'Manual',
-  [InventoryMovementReferenceTypeEnum.PURCHASE]: 'Purchase',
+  [InventoryMovementReferenceType.INVENTORY]: 'Inventory',
+  [InventoryMovementReferenceType.OS]: 'OS',
+  [InventoryMovementReferenceType.MANUAL]: 'Manual',
+  [InventoryMovementReferenceType.PURCHASE]: 'Purchase',
 };

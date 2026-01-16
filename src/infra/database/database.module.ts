@@ -10,6 +10,7 @@ import {
   TenantStatusEntity,
   TenantsEntity,
   UserStatusEntity,
+  UserTenantsEntity,
   UsersEntity,
 } from './entities';
 
@@ -22,6 +23,7 @@ const entities = [
   TenantStatusEntity,
   TenantsEntity,
   UserStatusEntity,
+  UserTenantsEntity,
   UsersEntity,
 ];
 

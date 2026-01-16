@@ -1,4 +1,4 @@
-import { CustomerTypeEnum } from '@/src/core';
+import { CustomerType } from '@/src/core';
 import type { VehiclesEntity } from '@/src/infra';
 import type {
   CreateVehicleRequestDto,
@@ -27,7 +27,7 @@ export class VehicleMapper {
         isWhatsapp: raw.customers.isWhatsapp,
         backupPhone: raw.customers.backupPhone ?? undefined,
         ownerBackupPhone: raw.customers.ownerBackupPhone ?? undefined,
-        customerType: CustomerTypeEnum[raw.customers.customerType],
+        customerType: CustomerType[raw.customers.customerType],
         createdAt: raw.customers.createdAt.toISOString(),
         updatedAt: raw.customers.updatedAt
           ? raw.customers.updatedAt.toISOString()

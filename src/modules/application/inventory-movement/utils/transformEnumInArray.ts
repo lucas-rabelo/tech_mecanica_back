@@ -1,20 +1,20 @@
 import {
-  InventoryMovementReasonEnum,
-  InventoryMovementReferenceTypeEnum,
-  InventoryMovementTypeEnum,
-} from '@/src/core';
-import {
+  InventoryMovementReason,
+  InventoryMovementReferenceType,
+  InventoryMovementType,
   movementReasonLabels,
   movementReferenceTypeLabels,
   movementTypeLabels,
 } from '@/src/core/constants';
 import type { OptionsSelectResponseDto } from '@/src/infra';
 
-export function transformEnumInArray(enumObj: string): OptionsSelectResponseDto[] {
+export function transformEnumInArray(
+  enumObj: string,
+): OptionsSelectResponseDto[] {
   const typeEnum: Record<string, Object> = {
-    type: InventoryMovementTypeEnum,
-    reason: InventoryMovementReasonEnum,
-    referenceType: InventoryMovementReferenceTypeEnum,
+    type: InventoryMovementType,
+    reason: InventoryMovementReason,
+    referenceType: InventoryMovementReferenceType,
   };
 
   const labels: Record<string, Record<string, string>> = {

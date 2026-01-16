@@ -1,10 +1,19 @@
 import {
-  InventoryMovementReasonEnum,
-  InventoryMovementReferenceTypeEnum,
-  InventoryMovementTypeEnum,
+  InventoryMovementReason,
+  InventoryMovementReferenceType,
+  InventoryMovementType,
+  type InventoryMovementReasonEnum,
+  type InventoryMovementReferenceTypeEnum,
+  type InventoryMovementTypeEnum,
 } from '@/src/core';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsDateString,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class ReadInventoryMovementResponseDto {
   @ApiProperty()
@@ -16,7 +25,7 @@ export class ReadInventoryMovementResponseDto {
   stockItemId: number;
 
   @ApiProperty()
-  @IsEnum(InventoryMovementTypeEnum)
+  @IsEnum(InventoryMovementType)
   type: InventoryMovementTypeEnum;
 
   @ApiProperty()
@@ -28,7 +37,7 @@ export class ReadInventoryMovementResponseDto {
   balanceAfter: number;
 
   @ApiProperty()
-  @IsEnum(InventoryMovementReasonEnum)
+  @IsEnum(InventoryMovementReason)
   reason: InventoryMovementReasonEnum;
 
   @ApiProperty()
@@ -36,7 +45,7 @@ export class ReadInventoryMovementResponseDto {
   description: string;
 
   @ApiProperty()
-  @IsEnum(InventoryMovementReferenceTypeEnum)
+  @IsEnum(InventoryMovementReferenceType)
   referenceType: InventoryMovementReferenceTypeEnum;
 
   @ApiProperty({ example: '2025-11-12T16:25:00.000Z' })

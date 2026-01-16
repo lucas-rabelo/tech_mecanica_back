@@ -17,9 +17,11 @@ export class UsersMapper {
       tenants: {
         id: data.tenantId,
       },
-      permissions: data.permissionId ? {
-        id: data.permissionId,
-      } : undefined,
+      permissions: data.permissionId
+        ? {
+            id: data.permissionId,
+          }
+        : undefined,
       userStatus: {
         id: data.userStatusId,
       },
@@ -44,6 +46,28 @@ export class UsersMapper {
       },
       createdAt: raw.createdAt.toISOString(),
       updatedAt: raw.updatedAt ? raw.updatedAt.toISOString() : null,
+      typeUser: raw.typeUser,
+      userTenants: raw.userTenants.map((userTenant) => ({
+        id: userTenant.id,
+        tenant: {
+          ...userTenant.tenant,
+          createdAt: userTenant.tenant.createdAt.toISOString(),
+          updatedAt: userTenant.tenant.updatedAt
+            ? userTenant.tenant.updatedAt.toISOString()
+            : null,
+        },
+        permission: {
+          ...userTenant.permission,
+          createdAt: userTenant.createdAt.toISOString(),
+          updatedAt: userTenant.updatedAt
+            ? userTenant.updatedAt.toISOString()
+            : null,
+        },
+        createdAt: userTenant.createdAt.toISOString(),
+        updatedAt: userTenant.updatedAt
+          ? userTenant.updatedAt.toISOString()
+          : null,
+      })),
     };
   }
 }

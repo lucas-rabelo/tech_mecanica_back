@@ -1,4 +1,4 @@
-import { CustomerTypeEnum } from '@/src/core';
+import { CustomerType, type CustomerTypeEnum } from '@/src/core';
 import { ListItemsRequestDto } from '@/src/infra';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
@@ -23,6 +23,6 @@ export class FilterListCustomersRequestDto extends ListItemsRequestDto {
   @ApiProperty({ required: false })
   @IsOptional()
   @Transform(({ value }) => ('' + value).toUpperCase())
-  @IsEnum(CustomerTypeEnum)
+  @IsEnum(CustomerType)
   customerType?: CustomerTypeEnum;
 }

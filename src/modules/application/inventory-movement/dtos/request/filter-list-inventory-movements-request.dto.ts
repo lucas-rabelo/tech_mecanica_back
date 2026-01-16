@@ -1,7 +1,10 @@
 import {
-  InventoryMovementReasonEnum,
-  InventoryMovementReferenceTypeEnum,
-  InventoryMovementTypeEnum,
+  InventoryMovementReason,
+  InventoryMovementReferenceType,
+  InventoryMovementType,
+  type InventoryMovementReasonEnum,
+  type InventoryMovementReferenceTypeEnum,
+  type InventoryMovementTypeEnum,
 } from '@/src/core';
 import { ListItemsRequestDto } from '@/src/infra';
 import { ApiProperty } from '@nestjs/swagger';
@@ -15,16 +18,16 @@ export class FilterListInventoryMovementsRequestDto extends ListItemsRequestDto 
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsEnum(InventoryMovementTypeEnum)
+  @IsEnum(InventoryMovementType)
   type?: InventoryMovementTypeEnum;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsEnum(InventoryMovementReasonEnum)
+  @IsEnum(InventoryMovementReason)
   reason?: InventoryMovementReasonEnum;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsEnum(InventoryMovementReferenceTypeEnum)
+  @IsEnum(InventoryMovementReferenceType)
   referenceType?: InventoryMovementReferenceTypeEnum;
 }

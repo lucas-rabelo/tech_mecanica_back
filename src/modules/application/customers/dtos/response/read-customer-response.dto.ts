@@ -1,4 +1,4 @@
-import { CustomerTypeEnum } from '@/src/core';
+import { CustomerType, type CustomerTypeEnum } from '@/src/core';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
@@ -32,7 +32,7 @@ export class ReadCustomerResponseDto {
   document: string;
 
   @ApiProperty()
-  @IsEnum(CustomerTypeEnum)
+  @IsEnum(CustomerType)
   customerType: CustomerTypeEnum;
 
   @ApiProperty()

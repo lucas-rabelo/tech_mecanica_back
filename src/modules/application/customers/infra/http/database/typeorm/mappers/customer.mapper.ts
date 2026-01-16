@@ -1,4 +1,4 @@
-import { CustomerTypeEnum } from '@/src/core';
+import { CustomerType } from '@/src/core';
 import type { CustomerEntity } from '@/src/infra';
 import type {
   CreateCustomerRequestDto,
@@ -7,7 +7,9 @@ import type {
 } from '@/src/modules/application/customers/dtos';
 
 export class CustomerMapper {
-  static toDatabase(data: CreateCustomerRequestDto | UpdateCustomerRequestDto) {}
+  static toDatabase(
+    data: CreateCustomerRequestDto | UpdateCustomerRequestDto,
+  ) {}
 
   static toDomain(raw: CustomerEntity): ReadCustomerResponseDto {
     return {
@@ -17,9 +19,9 @@ export class CustomerMapper {
       phone: raw.phone,
       isWhatsapp: raw.isWhatsapp,
       document: raw.document,
-      customerType: CustomerTypeEnum[raw.customerType],
+      customerType: CustomerType[raw.customerType],
       createdAt: raw.createdAt.toISOString(),
       updatedAt: raw.updatedAt ? raw.updatedAt.toISOString() : null,
-    }
+    };
   }
 }
