@@ -10,24 +10,30 @@ import {
 
 import {
   ForgotPasswordAuthUseCase,
+  IdentifyAuthUseCase,
   LoginAuthUseCase,
   RegisterAuthUseCase,
   ResetPasswordAuthUseCase,
-  IdentifyAuthUseCase
 } from './application/use-cases';
 
 import { DatabaseModule } from '@/src/infra';
 import { SharedJwtModule } from '../../shared';
+import { UserTenantsModule } from '../user-tenants';
 import {
   ForgotPasswordAuthController,
+  IdentifyAuthController,
   LoginAuthController,
   RegisterAuthController,
   ResetPasswordAuthController,
-  IdentifyAuthController
 } from './infra';
 
 @Module({
-  imports: [DatabaseModule, SharedJwtModule, forwardRef(() => UsersModule)],
+  imports: [
+    DatabaseModule,
+    SharedJwtModule,
+    forwardRef(() => UsersModule),
+    UserTenantsModule,
+  ],
   controllers: [
     ForgotPasswordAuthController,
     LoginAuthController,

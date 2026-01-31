@@ -1,8 +1,8 @@
 import { ApplicationException } from '@/src/core';
-import { DEFAULT_MESSAGES, USER_STATUS_ID_PENDING } from '@/src/core/constants';
+import { DEFAULT_MESSAGES, IdentifyAuthScope, USER_STATUS_ID_PENDING } from '@/src/core/constants';
 import { UsersRepository } from '@/src/modules/admin/users';
 import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
-import { RegisterAuthRequestDto, SendTokenResponseDto } from '../../dtos';
+import { RegisterAuthRequestDto, SendTokenResponseDto, type CreateTokenRequestDto } from '../../dtos';
 import { CreateTokenJwtService, EncryptedPasswordService } from '../services';
 
 @Injectable()
@@ -51,6 +51,15 @@ export class RegisterAuthUseCase {
       );
     }
 
-    return this.createTokenJwtService.execute(userCreated);
+    const userCreatedFormatted: CreateTokenRequestDto = {
+      id: userCreated.id,
+      name: userCreated.name,
+      email: userCreated.email,
+      document: userCreated.document,
+      tenantId,
+      scope: IdentifyAuthScope.USER
+    };
+
+    return this.createTokenJwtService.execute(userCreatedFormatted);
   }
 }

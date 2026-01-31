@@ -1,9 +1,10 @@
-import { ApplicationException, DEFAULT_MESSAGES } from '@/src/core';
+import { ApplicationException, DEFAULT_MESSAGES, IdentifyAuthScope } from '@/src/core';
 import { UsersRepository } from '@/src/modules/admin/users';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import {
   ForgotPasswordAuthRequestDto,
   SendLinkResetPasswordAuthResponseDto,
+  type CreateTokenRequestDto,
 } from '../../dtos';
 import { CreateTokenJwtService } from '../services';
 
@@ -25,8 +26,31 @@ export class ForgotPasswordAuthUseCase {
         HttpStatus.NOT_FOUND,
       );
     }
+    
+    let userFoundedFormatted: CreateTokenRequestDto = {
+      id: userFounded.id,
+      name: userFounded.name,
+      email: userFounded.email,
+      document: userFounded.document,
+      scope: userFounded.typeUser,
+    };
+    
+    const hasOneTenant = userFounded.userTenants.length == 1;
+    if (hasOneTenant) {
+      const userTenant = userFounded.userTenants[0];
 
-    const token = this.createTokenJwtService.execute(userFounded);
+      userFoundedFormatted = {
+        ...userFoundedFormatted,
+        tenantId: userTenant.tenant.id,
+      };
+    } else {
+      userFoundedFormatted = {
+        ...userFoundedFormatted,
+        tenantId: null,
+      };
+    }
+
+    const token = this.createTokenJwtService.execute(userFoundedFormatted);
 
     return {
       link: `${process.env.FRONT_BASE_URL}?token=${token.access_token}`,

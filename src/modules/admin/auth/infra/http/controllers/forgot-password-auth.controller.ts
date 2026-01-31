@@ -29,7 +29,9 @@ export class ForgotPasswordAuthController {
   @ApiOperation({ summary: 'Fluxo de esqueceu a senha' })
   @ApiOkResponse({ type: SendLinkResetPasswordAuthResponseDto })
   @Post('forget-password')
-  async handle(@Body() body: ForgotPasswordAuthRequestDto) {
+  async handle(
+    @Body() body: ForgotPasswordAuthRequestDto,
+  ) {
     return await this.forgotPasswordAuthUseCase.execute(body);
   }
 }
