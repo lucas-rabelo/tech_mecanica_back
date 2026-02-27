@@ -1,36 +1,22 @@
-import { ErrorBadRequestResponseDto, RequireAccess } from '@/src/infra';
-import { Controller, forwardRef, Get, Inject, Query } from '@nestjs/common';
-import {
-  ApiBadRequestResponse,
-  ApiBearerAuth,
-  ApiInternalServerErrorResponse,
-  ApiOkResponse,
-  ApiOperation,
-  ApiTags,
-  ApiUnauthorizedResponse,
-} from '@nestjs/swagger';
+import { AppController, AppGet } from '@/src/infra';
+import { Query } from '@nestjs/common';
 import { ListModuleUseCase } from '../../../application/use-cases';
 import {
   FilterListModuleRequestDto,
   ListModulesResponseDto,
 } from '../../../dtos';
 
-@ApiTags('Modules')
-@Controller('modules')
-@ApiBearerAuth()
-@ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
-@ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
-@ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })
+@AppController('Modules')
 export class ListModuleController {
   constructor(
-    @Inject(forwardRef(() => ListModuleUseCase))
     private readonly listModuleUseCase: ListModuleUseCase,
-  ) {}
+  ) { }
 
-  @RequireAccess({ module: 'Modules', page: 'ListModule' })
-  @ApiOperation({ summary: 'List of modules' })
-  @ApiOkResponse({ type: ListModulesResponseDto })
-  @Get()
+  @AppGet({
+    requiredAccess: { module: 'Modules', page: 'ListModule' },
+    summary: 'List of modules',
+    okResponse: ListModulesResponseDto,
+  })
   async handle(@Query() filters: FilterListModuleRequestDto) {
     return await this.listModuleUseCase.execute(filters);
   }
