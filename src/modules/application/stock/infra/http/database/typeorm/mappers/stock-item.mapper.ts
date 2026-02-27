@@ -1,5 +1,5 @@
-import type { StockEntity } from '@/src/infra';
-import type {
+import { StockEntity } from '@/src/infra';
+import {
   CreateStockItemRequestDto,
   ReadStockItemResponseDto,
   UpdateStockItemRequestDto,

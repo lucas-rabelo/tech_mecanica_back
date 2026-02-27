@@ -1,8 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
-export class CreateModuleRequestDto {
+class CreateModuleRequestDto {
   @ApiProperty()
   @IsString()
   name: string;
 }
+
+class CreateModuleUseCaseDto {
+  @ApiProperty()
+  @IsNumber()
+  id: number;
+
+  @ApiProperty({ type: CreateModuleRequestDto })
+  data: CreateModuleRequestDto;
+}
+
+export { CreateModuleRequestDto, CreateModuleUseCaseDto };

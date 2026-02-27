@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { CreateInventoryMovementRequestDto } from '../../dtos';
+import { CreateInventoryMovementRequestDto } from '../../dtos';
 import { InventoryMovementsRepository } from '../../infra';
 
 @Injectable()

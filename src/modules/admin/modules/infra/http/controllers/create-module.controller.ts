@@ -1,37 +1,24 @@
-import { ErrorBadRequestResponseDto, RequireAccess } from '@/src/infra';
-import { Body, Controller, forwardRef, Inject, Post } from '@nestjs/common';
-import {
-  ApiBadRequestResponse,
-  ApiBearerAuth,
-  ApiInternalServerErrorResponse,
-  ApiOkResponse,
-  ApiOperation,
-  ApiTags,
-  ApiUnauthorizedResponse,
-} from '@nestjs/swagger';
+import { AppController, AppPost } from '@/src/infra/decorators';
+import { Body, forwardRef, Inject } from '@nestjs/common';
 import { CreateModuleUseCase } from '../../../application/use-cases';
 import {
   CreateModuleRequestDto,
   ReadModuleResponseDto,
 } from '../../../dtos';
 
-@ApiTags('Modules')
-@Controller('modules')
-@ApiBearerAuth()
-@ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
-@ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
-@ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })
+@AppController('Modules')
 export class CreateModuleController {
   constructor(
     @Inject(forwardRef(() => CreateModuleUseCase))
-    private readonly createModuleUseCase: CreateModuleUseCase,
-  ) {}
+    private readonly createModuleUseCase: CreateModuleUseCase
+  ) { }
 
-  @RequireAccess({ module: 'Modules', page: 'CreateModule' })
-  @ApiOperation({ summary: 'Creating a new module' })
-  @ApiOkResponse({ type: ReadModuleResponseDto })
-  @Post()
+  @AppPost({
+    okResponse: ReadModuleResponseDto,
+    requiredAccess: { module: 'Modules', page: 'CreateModule' },
+    summary: 'Creating a new module',
+  })
   async handle(@Body() body: CreateModuleRequestDto) {
-    return await this.createModuleUseCase.execute(body);
+    return this.createModuleUseCase.execute(body);
   }
 }

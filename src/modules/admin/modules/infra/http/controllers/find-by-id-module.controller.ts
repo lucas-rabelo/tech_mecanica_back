@@ -1,41 +1,27 @@
-import { ErrorBadRequestResponseDto, RequireAccess } from '@/src/infra';
+import { AppController, AppGet } from '@/src/infra';
 import {
-  Controller,
   forwardRef,
-  Get,
   Inject,
   Param,
-  ParseIntPipe,
+  ParseIntPipe
 } from '@nestjs/common';
-import {
-  ApiBadRequestResponse,
-  ApiBearerAuth,
-  ApiInternalServerErrorResponse,
-  ApiOkResponse,
-  ApiOperation,
-  ApiTags,
-  ApiUnauthorizedResponse,
-} from '@nestjs/swagger';
 import { FindByIdModuleUseCase } from '../../../application/use-cases';
 import { ReadModuleResponseDto } from '../../../dtos';
 
-@ApiTags('Modules')
-@Controller('modules')
-@ApiBearerAuth()
-@ApiBadRequestResponse({ type: ErrorBadRequestResponseDto })
-@ApiUnauthorizedResponse({ type: ErrorBadRequestResponseDto })
-@ApiInternalServerErrorResponse({ type: ErrorBadRequestResponseDto })
+@AppController('Modules')
 export class FindByIdModuleController {
   constructor(
     @Inject(forwardRef(() => FindByIdModuleUseCase))
-    private readonly findByIdModuleUseCase: FindByIdModuleUseCase,
-  ) {}
+    private readonly findByIdModuleUseCase: FindByIdModuleUseCase
+  ) { }
 
-  @RequireAccess({ module: 'Modules', page: 'FindModule' })
-  @ApiOperation({ summary: 'Finding a module by ID' })
-  @ApiOkResponse({ type: ReadModuleResponseDto })
-  @Get(':id')
+  @AppGet({
+    path: ':id',
+    requiredAccess: { module: 'Modules', page: 'FindModule' },
+    summary: 'Finding a module by ID',
+    okResponse: ReadModuleResponseDto,
+  })
   async handle(@Param('id', ParseIntPipe) id: number) {
-    return await this.findByIdModuleUseCase.execute(id);
+    return this.findByIdModuleUseCase.execute(id);
   }
 }

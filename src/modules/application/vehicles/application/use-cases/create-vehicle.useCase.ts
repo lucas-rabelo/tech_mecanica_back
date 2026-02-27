@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { CreateVehicleRequestDto } from '../../dtos';
+import { CreateVehicleRequestDto } from '../../dtos';
 import { VehiclesRepository } from '../../infra';
 
 @Injectable()

@@ -12,11 +12,13 @@ import { ModulesRepository } from '../../modules.repository';
 import { ModuleMapper } from '../mappers';
 
 @Injectable()
-export class ModuleRepositoryTypeOrm implements ModulesRepository {
+export class ModuleRepositoryTypeOrm extends ModulesRepository {
   constructor(
     @InjectRepository(ModulesEntity)
     private readonly modulesRepository: Repository<ModulesEntity>,
-  ) {}
+  ) {
+    super();
+  }
 
   async create(data: CreateModuleRequestDto): Promise<ReadModuleResponseDto> {
     const permissionCreated = this.modulesRepository.create(data);
@@ -25,16 +27,12 @@ export class ModuleRepositoryTypeOrm implements ModulesRepository {
     return ModuleMapper.toDomain(permissionSaved);
   }
 
-  async delete(id: number): Promise<DeletedAndUpdatedDataResponseDto | null> {
-    const permissionDeleted = this.modulesRepository.update(id, {
+  async delete(id: number): Promise<DeletedAndUpdatedDataResponseDto> {
+    const permissionDeleted = await this.modulesRepository.update(id, {
       deletedAt: new Date(),
     });
 
-    if (!permissionDeleted) {
-      return null;
-    }
-
-    return { success: true };
+    return { success: permissionDeleted ? false : true };
   }
 
   async findById(id: number): Promise<ReadModuleResponseDto | null> {

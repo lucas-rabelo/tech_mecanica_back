@@ -1,5 +1,4 @@
-import type { DeletedAndUpdatedDataResponseDto } from '@/src/infra';
-import type {
+import {
   CreateInventoryMovementRequestDto,
   FilterListInventoryMovementsRequestDto,
   ListInventoryMovementsResponseDto,

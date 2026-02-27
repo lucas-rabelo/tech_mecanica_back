@@ -1,6 +1,6 @@
 import { CustomerTypeEnum } from '@/src/core';
-import type { VehiclesEntity } from '@/src/infra';
-import type {
+import { VehiclesEntity } from '@/src/infra';
+import {
   CreateVehicleRequestDto,
   ReadVehicleResponseDto,
   UpdateVehicleRequestDto,

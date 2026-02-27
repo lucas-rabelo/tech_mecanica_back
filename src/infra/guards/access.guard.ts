@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
-import type { Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { ACCESS_KEY } from '../constants';
 import { PermissionModulesEntity, PermissionPagesEntity } from '../database';
 import { AccessRequirement } from '../decorators/required-access.decorator';

@@ -1,3 +1,4 @@
+import { BaseUseCase } from '@/src/core';
 import { Injectable } from '@nestjs/common';
 import {
   CreateModuleRequestDto,
@@ -6,12 +7,18 @@ import {
 import { ModulesRepository } from '../../infra';
 
 @Injectable()
-export class CreateModuleUseCase {
-  constructor(private readonly modulesRepository: ModulesRepository) {}
+export class CreateModuleUseCase extends BaseUseCase<
+  CreateModuleRequestDto, 
+  ReadModuleResponseDto, 
+  ModulesRepository
+> {
+  constructor(protected readonly repository: ModulesRepository) {
+    super(repository);
+  }
 
   async execute(
     request: CreateModuleRequestDto,
   ): Promise<ReadModuleResponseDto> {
-    return this.modulesRepository.create(request);
+    return this.repository.create(request);
   }
 }

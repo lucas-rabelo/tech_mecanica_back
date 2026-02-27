@@ -1,5 +1,5 @@
-import type { ServiceMaterialsEntity } from '@/src/infra';
-import type {
+import { ServiceMaterialsEntity } from '@/src/infra';
+import {
   CreateServiceMaterialRequestDto,
   ReadServiceMaterialResponseDto,
   UpdateServiceMaterialRequestDto,

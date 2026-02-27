@@ -1,5 +1,5 @@
-import type { ListOptionsSelectResponseDto } from "@/src/infra";
-import type { ListOptionsSelectRequestDto } from "../../dtos";
+import { ListOptionsSelectResponseDto } from "@/src/infra";
+import { ListOptionsSelectRequestDto } from "../../dtos";
 import { transformEnumInArray } from "../../utils";
 
 export class ListOptionsSelectUseCase {

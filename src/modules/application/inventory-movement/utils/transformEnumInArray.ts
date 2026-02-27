@@ -8,7 +8,7 @@ import {
   movementReferenceTypeLabels,
   movementTypeLabels,
 } from '@/src/core/constants';
-import type { OptionsSelectResponseDto } from '@/src/infra';
+import { OptionsSelectResponseDto } from '@/src/infra';
 
 export function transformEnumInArray(enumObj: string): OptionsSelectResponseDto[] {
   const typeEnum: Record<string, Object> = {

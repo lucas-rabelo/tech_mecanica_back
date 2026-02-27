@@ -14,7 +14,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ListOptionsSelectUseCase } from '../../../application/use-cases';
-import type { ListOptionsSelectRequestDto } from '../../../dtos';
 
 @ApiTags('Inventory Movements')
 @Controller('inventory_movements')

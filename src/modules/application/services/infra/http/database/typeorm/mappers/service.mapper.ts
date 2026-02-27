@@ -1,5 +1,5 @@
-import type { ServicesEntity } from '@/src/infra';
-import type {
+import { ServicesEntity } from '@/src/infra';
+import {
   CreateServiceRequestDto,
   ReadServiceResponseDto,
   UpdateServiceRequestDto,
