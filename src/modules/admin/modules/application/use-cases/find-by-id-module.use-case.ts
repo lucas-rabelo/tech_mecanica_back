@@ -1,21 +1,20 @@
-import { ApplicationException, DEFAULT_MESSAGES } from '@/src/core';
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { BaseUseCase, NotFoundException } from '@/src/core';
+import { Injectable } from '@nestjs/common';
 import { ReadModuleResponseDto } from '../../dtos';
 import { ModulesRepository } from '../../infra';
 
 @Injectable()
-export class FindByIdModuleUseCase {
-  constructor(private readonly modulesRepository: ModulesRepository) {}
+export class FindByIdModuleUseCase extends BaseUseCase<number, ReadModuleResponseDto, ModulesRepository> {
+  constructor(protected readonly repository: ModulesRepository) {
+    super(repository);
+  }
 
   async execute(id: number): Promise<ReadModuleResponseDto> {
     try {
-      const moduleFounded = await this.modulesRepository.findById(id);
+      const moduleFounded = await this.repository.findById(id);
 
       if (!moduleFounded) {
-        throw new ApplicationException(
-          DEFAULT_MESSAGES.NOT_FOUND,
-          HttpStatus.NOT_FOUND,
-        );
+        throw new NotFoundException();
       }
 
       return moduleFounded;
