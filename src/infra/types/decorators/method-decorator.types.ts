@@ -1,5 +1,3 @@
-import type { Type } from "@nestjs/common";
-
 interface RequiredAccessType {
   module: string;
   page: string;

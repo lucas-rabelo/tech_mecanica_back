@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { CreateServiceMaterialRequestDto } from '../../dtos';
+import { CreateServiceMaterialRequestDto } from '../../dtos';
 import { ServiceMaterialsRepository } from '../../infra';
 
 @Injectable()

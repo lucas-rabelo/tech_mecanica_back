@@ -22,11 +22,13 @@ import { UsersRepository } from '../../users.repository';
 import { UsersMapper } from '../mappers';
 
 @Injectable()
-export class UsersRepositoryTypeOrm implements UsersRepository {
+export class UsersRepositoryTypeOrm extends UsersRepository {
   constructor(
     @InjectRepository(UsersEntity)
     private readonly usersRepository: Repository<UsersEntity>,
-  ) {}
+  ) {
+    super();
+  }
 
   async create(data: CreateUserRequestDto): Promise<ReadUserResponseDto> {
     const dataFormatted = UsersMapper.toDatabase(data);

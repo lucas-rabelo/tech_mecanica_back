@@ -1,6 +1,6 @@
 import { CustomerTypeEnum } from '@/src/core';
-import type { CustomerEntity } from '@/src/infra';
-import type {
+import { CustomerEntity } from '@/src/infra';
+import {
   CreateCustomerRequestDto,
   ReadCustomerResponseDto,
   UpdateCustomerRequestDto,

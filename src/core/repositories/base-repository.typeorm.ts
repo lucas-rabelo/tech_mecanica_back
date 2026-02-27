@@ -1,4 +1,4 @@
-import type { AuditableEntity } from '@/src/infra/database/entities/client';
+import { AuditableEntity } from '@/src/infra/database/entities/client';
 import {
   DeepPartial,
   IsNull,

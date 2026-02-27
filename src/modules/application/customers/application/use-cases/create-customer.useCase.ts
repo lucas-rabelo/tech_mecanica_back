@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { CreateCustomerRequestDto } from '../../dtos';
+import { CreateCustomerRequestDto } from '../../dtos';
 import { CustomersRepository } from '../../infra';
 
 @Injectable()

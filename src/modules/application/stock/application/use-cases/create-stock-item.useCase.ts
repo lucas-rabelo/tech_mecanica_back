@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { CreateStockItemRequestDto } from '../../dtos';
+import { CreateStockItemRequestDto } from '../../dtos';
 import { StockItemsRepository } from '../../infra';
 
 @Injectable()

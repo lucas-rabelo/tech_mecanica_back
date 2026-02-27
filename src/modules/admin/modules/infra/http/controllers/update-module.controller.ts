@@ -1,6 +1,8 @@
 import { AppController, AppPut, DeletedAndUpdatedDataResponseDto } from '@/src/infra';
 import {
   Body,
+  forwardRef,
+  Inject,
   Param,
   ParseIntPipe
 } from '@nestjs/common';
@@ -12,6 +14,7 @@ import {
 @AppController('Modules')
 export class UpdateModuleController {
   constructor(
+    @Inject(forwardRef(() => UpdateModuleUseCase))
     private readonly updateModuleUseCase: UpdateModuleUseCase,
   ) { }
 
@@ -25,6 +28,6 @@ export class UpdateModuleController {
     @Param('id', ParseIntPipe) id: number,
     @Body() body: CreateModuleRequestDto,
   ) {
-    return await this.updateModuleUseCase.execute({ id, data: body });
+    return this.updateModuleUseCase.execute({ id, data: body });
   }
 }

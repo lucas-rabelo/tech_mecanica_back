@@ -12,11 +12,13 @@ import { ModulesRepository } from '../../modules.repository';
 import { ModuleMapper } from '../mappers';
 
 @Injectable()
-export class ModuleRepositoryTypeOrm implements ModulesRepository {
+export class ModuleRepositoryTypeOrm extends ModulesRepository {
   constructor(
     @InjectRepository(ModulesEntity)
     private readonly modulesRepository: Repository<ModulesEntity>,
-  ) {}
+  ) {
+    super();
+  }
 
   async create(data: CreateModuleRequestDto): Promise<ReadModuleResponseDto> {
     const permissionCreated = this.modulesRepository.create(data);

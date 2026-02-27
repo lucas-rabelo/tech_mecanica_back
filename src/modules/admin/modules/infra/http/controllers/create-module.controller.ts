@@ -1,5 +1,5 @@
 import { AppController, AppPost } from '@/src/infra/decorators';
-import { Body } from '@nestjs/common';
+import { Body, forwardRef, Inject } from '@nestjs/common';
 import { CreateModuleUseCase } from '../../../application/use-cases';
 import {
   CreateModuleRequestDto,
@@ -9,7 +9,9 @@ import {
 @AppController('Modules')
 export class CreateModuleController {
   constructor(
-    private readonly createModuleUseCase: CreateModuleUseCase) { }
+    @Inject(forwardRef(() => CreateModuleUseCase))
+    private readonly createModuleUseCase: CreateModuleUseCase
+  ) { }
 
   @AppPost({
     okResponse: ReadModuleResponseDto,
@@ -17,6 +19,6 @@ export class CreateModuleController {
     summary: 'Creating a new module',
   })
   async handle(@Body() body: CreateModuleRequestDto) {
-    return await this.createModuleUseCase.execute(body);
+    return this.createModuleUseCase.execute(body);
   }
 }

@@ -1,7 +1,7 @@
 import { BadRequestUpdateException, BaseUseCase } from '@/src/core';
 import { DeletedAndUpdatedDataResponseDto } from '@/src/infra';
 import { Injectable } from '@nestjs/common';
-import type { CreateModuleUseCaseDto } from '../../dtos';
+import { CreateModuleUseCaseDto } from '../../dtos';
 import { ModulesRepository } from '../../infra';
 
 @Injectable()
@@ -10,9 +10,7 @@ export class UpdateModuleUseCase extends BaseUseCase<
   DeletedAndUpdatedDataResponseDto,
   ModulesRepository
 > {
-  constructor(
-    protected readonly repository: ModulesRepository,
-  ) {
+  constructor(protected readonly repository: ModulesRepository) {
     super(repository);
   }
 

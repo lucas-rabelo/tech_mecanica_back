@@ -1,5 +1,5 @@
-import type { DeletedAndUpdatedDataResponseDto } from '@/src/infra';
-import type {
+import { DeletedAndUpdatedDataResponseDto } from '@/src/infra';
+import {
   CreateCustomerRequestDto,
   FilterListCustomersRequestDto,
   ListCustomersResponseDto,

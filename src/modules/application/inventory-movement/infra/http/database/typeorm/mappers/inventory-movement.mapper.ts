@@ -1,5 +1,5 @@
-import type { InventoryMovementEntity } from '@/src/infra';
-import type {
+import { InventoryMovementEntity } from '@/src/infra';
+import {
   CreateInventoryMovementRequestDto,
   ReadInventoryMovementResponseDto,
 } from '@/src/modules/application/inventory-movement/dtos';

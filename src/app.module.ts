@@ -7,7 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { APP_GUARD } from '@nestjs/core';
-import { AccessGuard, AuthGuard, TenantMiddleware } from './infra';
+import { AccessGuard, AuthGuard, DatabaseModule, TenantMiddleware } from './infra';
 import { AdminModule, ApplicationModule, SharedJwtModule } from './modules';
 import { ServicesModule } from './core';
 
@@ -28,6 +28,7 @@ import { ServicesModule } from './core';
         migrationsTableName: 'typeorm_migrations',
       }),
     }),
+    DatabaseModule,
     ServicesModule,
     SharedJwtModule,
     AdminModule,

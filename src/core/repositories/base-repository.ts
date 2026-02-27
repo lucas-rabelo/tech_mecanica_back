@@ -1,4 +1,4 @@
-import type { DeletedAndUpdatedDataResponseDto } from "@/src/infra";
+import { DeletedAndUpdatedDataResponseDto } from "@/src/infra";
 
 export abstract class BaseRepository<CreateDto, ReadDto, UpdateDto, ListDto, FilterListDto> {
   abstract findById(id: number): Promise<ReadDto | null>;

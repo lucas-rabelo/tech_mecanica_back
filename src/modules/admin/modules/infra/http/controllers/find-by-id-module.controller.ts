@@ -1,5 +1,7 @@
 import { AppController, AppGet } from '@/src/infra';
 import {
+  forwardRef,
+  Inject,
   Param,
   ParseIntPipe
 } from '@nestjs/common';
@@ -8,7 +10,10 @@ import { ReadModuleResponseDto } from '../../../dtos';
 
 @AppController('Modules')
 export class FindByIdModuleController {
-  constructor(private readonly findByIdModuleUseCase: FindByIdModuleUseCase) { }
+  constructor(
+    @Inject(forwardRef(() => FindByIdModuleUseCase))
+    private readonly findByIdModuleUseCase: FindByIdModuleUseCase
+  ) { }
 
   @AppGet({
     path: ':id',
@@ -17,6 +22,6 @@ export class FindByIdModuleController {
     okResponse: ReadModuleResponseDto,
   })
   async handle(@Param('id', ParseIntPipe) id: number) {
-    return await this.findByIdModuleUseCase.execute(id);
+    return this.findByIdModuleUseCase.execute(id);
   }
 }

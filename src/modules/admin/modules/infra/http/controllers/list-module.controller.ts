@@ -1,5 +1,5 @@
 import { AppController, AppGet } from '@/src/infra';
-import { Query } from '@nestjs/common';
+import { forwardRef, Inject, Query } from '@nestjs/common';
 import { ListModuleUseCase } from '../../../application/use-cases';
 import {
   FilterListModuleRequestDto,
@@ -9,6 +9,7 @@ import {
 @AppController('Modules')
 export class ListModuleController {
   constructor(
+    @Inject(forwardRef(() => ListModuleUseCase))
     private readonly listModuleUseCase: ListModuleUseCase,
   ) { }
 
@@ -18,6 +19,6 @@ export class ListModuleController {
     okResponse: ListModulesResponseDto,
   })
   async handle(@Query() filters: FilterListModuleRequestDto) {
-    return await this.listModuleUseCase.execute(filters);
+    return this.listModuleUseCase.execute(filters);
   }
 }

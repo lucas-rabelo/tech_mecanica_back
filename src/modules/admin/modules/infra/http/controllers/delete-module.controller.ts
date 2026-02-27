@@ -1,5 +1,7 @@
 import { AppController, AppDelete, DeletedAndUpdatedDataResponseDto } from '@/src/infra';
 import {
+  forwardRef,
+  Inject,
   Param,
   ParseIntPipe
 } from '@nestjs/common';
@@ -7,7 +9,9 @@ import { DeleteModuleUseCase } from '../../../application/use-cases';
 
 @AppController('Modules')
 export class DeleteModuleController {
-  constructor(private readonly deleteModuleUseCase: DeleteModuleUseCase) { }
+  constructor(
+    @Inject(forwardRef(() => DeleteModuleUseCase))
+    private readonly deleteModuleUseCase: DeleteModuleUseCase) { }
 
   @AppDelete({
     okResponse: DeletedAndUpdatedDataResponseDto,
@@ -16,6 +20,6 @@ export class DeleteModuleController {
     path: ':id',
   })
   async handle(@Param('id', ParseIntPipe) id: number) {
-    return await this.deleteModuleUseCase.execute(id);
+    return this.deleteModuleUseCase.execute(id);
   }
 }
